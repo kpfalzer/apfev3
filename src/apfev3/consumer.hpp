@@ -11,6 +11,7 @@
 
 #include <cstdlib>
 #include "apfev3/charbuf.hpp"
+#include "apfev3/util.hpp"
 
 namespace apfev3 {
 class Consumer {
@@ -40,6 +41,8 @@ public:
         const size_t    line, col;
     };
     
+    typedef SingleOwnerPtr<Location> TPLocation;
+    
     struct Token {
         explicit Token(const std::string& _text, const Location& _loc)
         : text(_text), location(new Location(_loc))
@@ -51,11 +54,18 @@ public:
         
         explicit Token() : location(nullptr){}
         
+        explicit Token(const Token& from)
+        : text(from.text),
+        location(from.location)
+        {}
+        
         virtual ~Token();
         
         const std::string text;
-        const Location* location;
+        const TPLocation location;
     };
+    
+    typedef SingleOwnerPtr<Token>  TPToken;
     
     struct Mark {
         explicit Mark(size_t _pos, size_t _line, size_t _col)
@@ -72,10 +82,10 @@ public:
     };
     
     // accept n chars
-    const Token* accept(size_t n);
+    const TPToken accept(size_t n);
     
     bool isEOF() const {
-        return __pos >= __buf.length();
+        return (0 == rem());
     }
     
     size_t rem() const {
@@ -92,7 +102,7 @@ public:
         __col = mark.col;
     }
     
-    Location* location() const {
+    TPLocation location() const {
         return new Location(*this);
     }
     

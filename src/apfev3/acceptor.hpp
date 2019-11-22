@@ -10,12 +10,17 @@
 #define apfev3_acceptor_hpp
 
 #include <forward_list>
+#include <regex>
 #include "apfev3/consumer.hpp"
 
 namespace apfev3 {
 typedef Consumer::Token Token;
+typedef SingleOwnerPtr<Token> TPToken;
 class Tokens;
-typedef std::forward_list<const Tokens*> ListOfTokens;
+typedef SingleOwnerPtr<Tokens> TPTokens;
+
+typedef std::forward_list<const TPTokens> ListOfTokens;
+typedef SingleOwnerPtr<ListOfTokens>   TPListOfTokens;
 
 class Tokens {
 public:
@@ -26,31 +31,33 @@ public:
     {}
     
     // Simple constructor for single element.
-    explicit Tokens(const Token* ele);
+    explicit Tokens(const TPToken& ele);
     
-    explicit Tokens(const ListOfTokens* from);
+    explicit Tokens(const TPListOfTokens& from);
     
-    explicit Tokens(const Tokens* from);
+    explicit Tokens(const TPTokens& from);
     
     // Valid only for eAlternatives.
     explicit Tokens(EType type);
     
-    Tokens* addAlternative(const Tokens* alt);
+    void addAlternative(const TPTokens& alt);
     
-    Tokens* operator<<(const Tokens* alt) {
-        return addAlternative(alt);
+    void operator<<(const TPTokens& alt) {
+        addAlternative(alt);
     }
+    
+    virtual ~Tokens();
     
 private:
     //not allowed
     const Tokens& operator=(const Tokens&);
     
-    virtual ~Tokens();
+    Tokens(const Tokens&);
     
     union U {
-        const Token* terminal;
-        const ListOfTokens* sequence;
-        const ListOfTokens* alternatives;
+        TPToken terminal;
+        TPListOfTokens sequence;
+        TPListOfTokens alternatives;
         ~U(){}
         U(){}
     } __items;
@@ -62,7 +69,7 @@ public:
     
     //allow default copy constructors
     
-    virtual const Tokens* accept(Consumer& consumer) const = 0;
+    virtual const TPTokens accept(Consumer& consumer) const = 0;
 };
 
 class Terminal : public _Acceptor {
@@ -71,17 +78,28 @@ public:
     : __text(text)
     {}
     
-    virtual const Tokens* accept(Consumer& consumer) const;
+    virtual const TPTokens accept(Consumer& consumer) const;
+    
+    //allow default copy constructors
     
     virtual ~Terminal(){}
     
 private:
-    //Not allowed
-    Terminal(const Terminal&);
-    
-    const Terminal& operator=(const Terminal&);
-    
     const std::string&  __text;
+};
+
+class Regex : public _Acceptor {
+public:
+    explicit Regex(const std::string& pattern);
+    
+    virtual const TPTokens accept(Consumer& consumer) const;
+    
+    //allow default copy constructors
+    
+    virtual ~Regex(){}
+
+private:
+    std::regex __rex;
 };
 
 class Repetition : public _Acceptor {
@@ -91,40 +109,48 @@ public:
     explicit Repetition(_Acceptor& ele, EType _type)
     : __ele(ele), type(_type) {}
     
-    virtual const Tokens* accept(Consumer& consumer) const;
+    //allow default copy constructors
+    
+    virtual const TPTokens accept(Consumer& consumer) const;
     
 private:
     _Acceptor& __ele;
 };
 
+typedef std::forward_list<std::reference_wrapper<_Acceptor> > TListOfAcceptor;
+
 class Sequence : public _Acceptor {
 public:
     // Constructor is {_Acceptor&...}
-    explicit Sequence(const std::forward_list<std::reference_wrapper<_Acceptor>>& eles)
+    explicit Sequence(const TListOfAcceptor& eles)
     : __eles(eles)
     {}
     
-    virtual const Tokens* accept(Consumer& consumer) const;
+    //allow default copy constructors
+    
+    virtual const TPTokens accept(Consumer& consumer) const;
 
     virtual ~Sequence();
     
 private:
-    const std::forward_list<std::reference_wrapper<_Acceptor>> __eles;
+    const TListOfAcceptor& __eles;
 };
 
 class Alternatives : public _Acceptor {
 public:
     // Constructor is {_Acceptor&...}
-    explicit Alternatives(const std::forward_list<std::reference_wrapper<_Acceptor>>& eles)
+    explicit Alternatives(const TListOfAcceptor& eles)
     : __eles(eles)
     {}
     
-    virtual const Tokens* accept(Consumer& consumer) const;
+    //allow default copy constructors
+    
+    virtual const TPTokens accept(Consumer& consumer) const;
 
     virtual ~Alternatives();
     
 private:
-    const std::forward_list<std::reference_wrapper<_Acceptor>> __eles;
+    const TListOfAcceptor& __eles;
 };
 }
 #endif /* apfev3_acceptor_hpp */

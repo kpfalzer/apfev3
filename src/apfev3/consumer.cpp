@@ -18,10 +18,10 @@ __line(1),
 __col(1)
 {}
 
-const Consumer::Token* Consumer::accept(size_t n) {
+const Consumer::TPToken Consumer::accept(size_t n) {
     INVARIANT(n <= rem());
     Location here(*this);
-    char buf[n];
+    char buf[n+1];
     char c;
     for (size_t i = 0; i < n; i++) {
         c = this->operator[](i);
@@ -32,6 +32,7 @@ const Consumer::Token* Consumer::accept(size_t n) {
         }
         __col += 1;
     }
+    buf[n] = '\0';
     __pos += n;
     std::string text(buf);
     return new Token(text, here);
@@ -46,7 +47,6 @@ Consumer::Mark::operator=(const Mark& from) {
 }
 
 Consumer::Token::~Token() {
-    delete location;
 }
 
 }

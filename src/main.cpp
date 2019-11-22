@@ -7,15 +7,22 @@
 //
 
 #include <iostream>
-#include "apfev3/charbuf.hpp"
-#include "apfev3/util.hpp"
+#include "apfev3/acceptor.hpp"
 
 int main(int argc, const char * argv[]) {
-    // insert code here...
-    std::cout << "Hello, World!\n";
-    const std::string fname = __FILE__;
-    apfev3::CharBuf cbuf(fname);
-    apfev3::CharBuf cbuf2(cbuf);
-    //INVARIANT(3 == 4);
-    return 0;
+    {
+        const std::string fname = __FILE__;
+        apfev3::CharBuf cbuf(fname);
+    }
+    {
+        const char* p = "12345";
+        apfev3::CharBuf cbuf(p);
+        apfev3::Consumer consumer(cbuf);
+        apfev3::Regex rex("\\d+");
+        apfev3::TPTokens match = rex.accept(consumer);
+        INVARIANT(!match.isNull());
+        INVARIANT(consumer.isEOF());
+    }
+    std::cout << "Hello world" << std::endl;
+    return(0);
 }
