@@ -39,7 +39,7 @@ void Tokens::addAlternative(const TPTokens& alt) {
         __items.alternatives = new ListOfTokens();
     }
     ListOfTokens* p = __items.alternatives;
-    p->insert_after(p->end(), alt);
+    p->append(alt);
 }
 
 Tokens::~Tokens(){
@@ -58,9 +58,13 @@ Tokens::~Tokens(){
     }
 }
 
+const TPTokens _Acceptor::accept(Consumer& consumer) const {
+    return (consumer.isEOF()) ? nullptr : _accept(consumer);
+}
+
 _Acceptor::~_Acceptor() {}
 
-const TPTokens Terminal::accept(Consumer& consumer) const {
+const TPTokens Terminal::_accept(Consumer& consumer) const {
     const size_t n = __text.length();
     for (size_t i = 0; i < n; i++) {
         if (__text[i] != consumer[i]) {
@@ -73,23 +77,19 @@ const TPTokens Terminal::accept(Consumer& consumer) const {
 Regex::Regex(const std::string& pattern)
 : __rex(pattern.c_str()) {}
  
-const TPTokens Regex::accept(Consumer& consumer) const {
+const TPTokens Regex::_accept(Consumer& consumer) const {
     std::string s = "";
     size_t n = 0;
     for (; n < consumer.rem(); n++) {
         s += consumer[n];
         if (! std::regex_match(s, __rex)) {
-            if (0 == n) {
-                return nullptr;
-            } else {
-                break;
-            }
+            break;
         }
     }
-    return new Tokens(consumer.accept(n));
+    return (0 < n) ? new Tokens(consumer.accept(n)) : nullptr;
 }
 
-const TPTokens Repetition::accept(Consumer& consumer) const {
+const TPTokens Repetition::_accept(Consumer& consumer) const {
     TPTokens p;
     ListOfTokens* tokens = nullptr;
     while (true) {
@@ -98,7 +98,7 @@ const TPTokens Repetition::accept(Consumer& consumer) const {
         if (nullptr == tokens) {
             tokens = new ListOfTokens();
         }
-        tokens->insert_after(tokens->end(), p);
+        tokens->append(p);
     }
     if (nullptr == tokens) {
         switch (type) {
@@ -112,16 +112,16 @@ const TPTokens Repetition::accept(Consumer& consumer) const {
     return (nullptr != tokens) ? new Tokens(tokens) : nullptr;
 }
 
-const TPTokens Sequence::accept(Consumer& consumer) const {
+const TPTokens Sequence::_accept(Consumer& consumer) const {
     TPTokens p;
     ListOfTokens* tokens = nullptr;
-    for (auto acc = __eles.cbegin(); acc != __eles.cend(); acc++) {
-        p = acc->get().accept(consumer);
+    for (auto iter = __eles.iterator(); iter.hasMore(); ) {
+        p = iter.next().accept(consumer);
         if (nullptr == p) return nullptr;
         if (nullptr == tokens) {
             tokens = new ListOfTokens();
         }
-        tokens->insert_after(tokens->end(), p);
+        tokens->append(p);
     }
     INVARIANT(nullptr != tokens);
     return new Tokens(tokens);
@@ -130,16 +130,16 @@ const TPTokens Sequence::accept(Consumer& consumer) const {
 Sequence::~Sequence()
 {}
 
-const TPTokens Alternatives::accept(Consumer& consumer) const {
+const TPTokens Alternatives::_accept(Consumer& consumer) const {
     TPTokens p;
     Tokens* alts = nullptr;
-    for (auto acc = __eles.cbegin(); acc != __eles.cend(); acc++) {
-        p = acc->get().accept(consumer);
+    for (auto iter = __eles.iterator(); iter.hasMore(); ) {
+        p = iter.next().accept(consumer);
         if (nullptr != p) {
             if (nullptr == alts) {
                 alts = new Tokens(Tokens::eAlternatives);
             }
-            *alts << p;
+            alts->addAlternative(p);
         }
     }
     return alts;

@@ -15,6 +15,15 @@ int main(int argc, const char * argv[]) {
         apfev3::CharBuf cbuf(fname);
     }
     {
+        apfev3::SList<int> list({1,2});
+        list << 3 << 4;
+        int sum = 0;
+        for (auto iter = list.iterator(); iter.hasMore();) {
+            sum += iter.next();
+        }
+        std::cout << "sum=" << sum << std::endl;
+    }
+    {
         const char* p = "12345";
         apfev3::CharBuf cbuf(p);
         apfev3::Consumer consumer(cbuf);
@@ -23,6 +32,32 @@ int main(int argc, const char * argv[]) {
         INVARIANT(!match.isNull());
         INVARIANT(consumer.isEOF());
     }
+    static apfev3::Regex NUMBER("\\d+\\s*");
+    static apfev3::Regex IDENT("[_a-zA-Z][_a-zA-Z\\d]*\\s*");
+    {
+        const char* const p = "abc_def \n";
+        bool m = std::regex_match(p, std::regex("[_a-zA-Z][_a-zA-Z\\d]*\\s*"));
+        INVARIANT(m);
+        apfev3::CharBuf cbuf(p);
+        apfev3::Consumer consumer(cbuf);
+        apfev3::TPTokens match = IDENT.accept(consumer);
+        INVARIANT(!match.isNull());
+        INVARIANT(consumer.isEOF());
+    }
+    /**/
+    if (true) {
+        const char* p = "abc_def 123 \n456 _123abc\n";
+        apfev3::CharBuf cbuf(p);
+        apfev3::Consumer consumer(cbuf);    
+        static apfev3::TListOfAcceptor _TOKEN;
+        _TOKEN.append(NUMBER).append(IDENT);
+        static apfev3::Alternatives TOKEN(_TOKEN);
+        static apfev3::Repetition TOKENS(TOKEN, apfev3::Repetition::eOneOrMore);
+        apfev3::TPTokens match = TOKENS.accept(consumer);
+        INVARIANT(!match.isNull());
+        INVARIANT(consumer.isEOF());
+    }
+    /**/
     std::cout << "Hello world" << std::endl;
     return(0);
 }

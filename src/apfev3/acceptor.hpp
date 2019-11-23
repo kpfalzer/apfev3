@@ -9,7 +9,6 @@
 #ifndef apfev3_acceptor_hpp
 #define apfev3_acceptor_hpp
 
-#include <forward_list>
 #include <regex>
 #include "apfev3/consumer.hpp"
 
@@ -19,7 +18,7 @@ typedef SingleOwnerPtr<Token> TPToken;
 class Tokens;
 typedef SingleOwnerPtr<Tokens> TPTokens;
 
-typedef std::forward_list<const TPTokens> ListOfTokens;
+typedef SList<const TPTokens> ListOfTokens;
 typedef SingleOwnerPtr<ListOfTokens>   TPListOfTokens;
 
 class Tokens {
@@ -41,11 +40,7 @@ public:
     explicit Tokens(EType type);
     
     void addAlternative(const TPTokens& alt);
-    
-    void operator<<(const TPTokens& alt) {
-        addAlternative(alt);
-    }
-    
+        
     virtual ~Tokens();
     
 private:
@@ -69,7 +64,10 @@ public:
     
     //allow default copy constructors
     
-    virtual const TPTokens accept(Consumer& consumer) const = 0;
+    virtual const TPTokens accept(Consumer& consumer) const;
+    
+protected:
+    virtual const TPTokens _accept(Consumer& consumer) const = 0;
 };
 
 class Terminal : public _Acceptor {
@@ -78,11 +76,12 @@ public:
     : __text(text)
     {}
     
-    virtual const TPTokens accept(Consumer& consumer) const;
-    
     //allow default copy constructors
     
     virtual ~Terminal(){}
+
+protected:
+    virtual const TPTokens _accept(Consumer& consumer) const;
     
 private:
     const std::string&  __text;
@@ -92,12 +91,13 @@ class Regex : public _Acceptor {
 public:
     explicit Regex(const std::string& pattern);
     
-    virtual const TPTokens accept(Consumer& consumer) const;
-    
-    //allow default copy constructors
+     //allow default copy constructors
     
     virtual ~Regex(){}
 
+protected:
+    virtual const TPTokens _accept(Consumer& consumer) const;
+     
 private:
     std::regex __rex;
 };
@@ -106,18 +106,19 @@ class Repetition : public _Acceptor {
 public:
     const enum EType {eOptional, eZeroOrMore, eOneOrMore} type;
     
-    explicit Repetition(_Acceptor& ele, EType _type)
+    explicit Repetition(const _Acceptor& ele, EType _type)
     : __ele(ele), type(_type) {}
     
     //allow default copy constructors
     
-    virtual const TPTokens accept(Consumer& consumer) const;
+protected:
+    virtual const TPTokens _accept(Consumer& consumer) const;
     
 private:
-    _Acceptor& __ele;
+    const _Acceptor& __ele;
 };
 
-typedef std::forward_list<std::reference_wrapper<_Acceptor> > TListOfAcceptor;
+typedef SList<const _Acceptor&> TListOfAcceptor;
 
 class Sequence : public _Acceptor {
 public:
@@ -128,10 +129,11 @@ public:
     
     //allow default copy constructors
     
-    virtual const TPTokens accept(Consumer& consumer) const;
-
     virtual ~Sequence();
-    
+
+protected:
+    virtual const TPTokens _accept(Consumer& consumer) const;
+
 private:
     const TListOfAcceptor& __eles;
 };
@@ -145,9 +147,10 @@ public:
     
     //allow default copy constructors
     
-    virtual const TPTokens accept(Consumer& consumer) const;
-
     virtual ~Alternatives();
+    
+protected:
+    virtual const TPTokens _accept(Consumer& consumer) const;
     
 private:
     const TListOfAcceptor& __eles;

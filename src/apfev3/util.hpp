@@ -10,6 +10,7 @@
 #define apfev3_util_hpp
 
 #include <string>
+#include <initializer_list>
 
 namespace apfev3 {
 const char* readFile(const char* const fname);
@@ -80,6 +81,82 @@ private:
     T* __p;
 };
 
+// std::forward_list is too complicated and doesn't work w/ references correctly.
+// So, RYO (Roll Your Own).
+template<class T>
+class SList {
+public:
+    explicit SList()
+    : __head(nullptr),
+    __tail(nullptr)
+    {}
+    
+    explicit SList(const std::initializer_list<T>& from) : SList() {
+        for (auto iter = from.begin(); iter != from.end(); iter++) {
+            append(*iter);
+        }
+    }
+    
+    SList& append(const T& data) {
+        Link* p = new Link(data);
+        if (nullptr == __head) {
+            __head = p;
+            __tail = p;
+        } else {
+            __tail->next = p;
+            __tail = p;
+        }
+        return *this;
+    }
+        
+private:
+    struct Link;
+    
+public:
+    friend class Iterator;
+    
+    class Iterator {
+    public:
+        explicit Iterator(Link* head)
+        : __curr(head)
+        {}
+        
+        //allow default copy constructors
+        
+        bool hasMore() const {
+            return (nullptr != __curr);
+        }
+        
+        T next() {
+            T rval = __curr->data;
+            __curr = __curr->next;
+            return rval;
+        }
+    private:
+        Link* __curr;
+    };
+    
+    Iterator iterator() const {
+        return Iterator(__head);
+    }
+private:
+    struct Link {
+        explicit Link(const T& _data)
+        : data(_data), next(nullptr)
+        {}
+        
+        T data;
+        Link* next;
+    };
+    
+    Link* __head;
+    Link* __tail;
+};
+
+template<class T>
+SList<T>& operator<<(SList<T>& list, const T& data) {
+    return list.append(data);
+}
 }
 
 #define INVARIANT(_expr) apfev3::invariant(_expr, "Invariant failed: " #_expr)

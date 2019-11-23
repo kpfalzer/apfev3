@@ -3,4 +3,100 @@
    uuid = "FF23D5C9-CBED-4779-94C3-6E7501D5778D"
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "45FBECA7-FC0D-4460-9202-0D6B1033BFC6"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/main.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "62"
+            endingLineNumber = "62"
+            landmarkName = "main(argc, argv)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "558113E4-9B36-4201-B142-1AD140CFF4E7"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/apfev3/util.hpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "70"
+            endingLineNumber = "70"
+            landmarkName = "destroy()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "558113E4-9B36-4201-B142-1AD140CFF4E7 - b14d1a65d56d0807"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "apfev3::SingleOwnerPtr&lt;apfev3::SList&lt;apfev3::SingleOwnerPtr&lt;apfev3::Tokens&gt; const&gt; &gt;::destroy()"
+                  moduleName = "apfev3"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kpfalzer/projects/apfev3/src/apfev3/util.hpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "70"
+                  endingLineNumber = "70"
+                  offsetFromSymbolStart = "20">
+               </Location>
+               <Location
+                  uuid = "558113E4-9B36-4201-B142-1AD140CFF4E7 - 53037faf39c48ece"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "apfev3::SingleOwnerPtr&lt;apfev3::Consumer::Token&gt;::destroy()"
+                  moduleName = "apfev3"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kpfalzer/projects/apfev3/src/apfev3/util.hpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "70"
+                  endingLineNumber = "70"
+                  offsetFromSymbolStart = "20">
+               </Location>
+               <Location
+                  uuid = "558113E4-9B36-4201-B142-1AD140CFF4E7 - de0192f9d6ddd594"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "apfev3::SingleOwnerPtr&lt;apfev3::Tokens&gt;::destroy()"
+                  moduleName = "apfev3"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kpfalzer/projects/apfev3/src/apfev3/util.hpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "70"
+                  endingLineNumber = "70"
+                  offsetFromSymbolStart = "20">
+               </Location>
+               <Location
+                  uuid = "558113E4-9B36-4201-B142-1AD140CFF4E7 - c99373fb4d27af03"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "apfev3::SingleOwnerPtr&lt;apfev3::Consumer::Location&gt;::destroy()"
+                  moduleName = "apfev3"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kpfalzer/projects/apfev3/src/apfev3/util.hpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "70"
+                  endingLineNumber = "70"
+                  offsetFromSymbolStart = "20">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>
