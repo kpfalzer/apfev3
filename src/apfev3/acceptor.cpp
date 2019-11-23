@@ -116,7 +116,7 @@ const TPTokens Sequence::_accept(Consumer& consumer) const {
     TPTokens p;
     ListOfTokens* tokens = nullptr;
     for (auto iter = __eles.iterator(); iter.hasMore(); ) {
-        p = iter.next().accept(consumer);
+        p = iter.next()->accept(consumer);
         if (nullptr == p) return nullptr;
         if (nullptr == tokens) {
             tokens = new ListOfTokens();
@@ -134,7 +134,7 @@ const TPTokens Alternatives::_accept(Consumer& consumer) const {
     TPTokens p;
     Tokens* alts = nullptr;
     for (auto iter = __eles.iterator(); iter.hasMore(); ) {
-        p = iter.next().accept(consumer);
+        p = iter.next()->accept(consumer);
         if (nullptr != p) {
             if (nullptr == alts) {
                 alts = new Tokens(Tokens::eAlternatives);

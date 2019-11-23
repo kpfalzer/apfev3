@@ -118,7 +118,7 @@ private:
     const _Acceptor& __ele;
 };
 
-typedef SList<const _Acceptor&> TListOfAcceptor;
+typedef SList<const _Acceptor*> TListOfAcceptor;
 
 class Sequence : public _Acceptor {
 public:

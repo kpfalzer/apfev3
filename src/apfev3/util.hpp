@@ -109,6 +109,10 @@ public:
         return *this;
     }
         
+    SList& operator<<(const T& r) {
+        return append(r);
+    }
+    
 private:
     struct Link;
     
@@ -152,11 +156,6 @@ private:
     Link* __head;
     Link* __tail;
 };
-
-template<class T>
-SList<T>& operator<<(SList<T>& list, const T& data) {
-    return list.append(data);
-}
 }
 
 #define INVARIANT(_expr) apfev3::invariant(_expr, "Invariant failed: " #_expr)

@@ -49,8 +49,8 @@ int main(int argc, const char * argv[]) {
         const char* p = "abc_def 123 \n456 _123abc\n";
         apfev3::CharBuf cbuf(p);
         apfev3::Consumer consumer(cbuf);    
-        static apfev3::TListOfAcceptor _TOKEN;
-        _TOKEN.append(NUMBER).append(IDENT);
+        static apfev3::TListOfAcceptor _TOKEN({&NUMBER,&IDENT});
+        //_TOKEN << &NUMBER << &IDENT;
         static apfev3::Alternatives TOKEN(_TOKEN);
         static apfev3::Repetition TOKENS(TOKEN, apfev3::Repetition::eOneOrMore);
         apfev3::TPTokens match = TOKENS.accept(consumer);
