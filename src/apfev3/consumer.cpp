@@ -6,6 +6,7 @@
 //  Copyright © 2019 Karl W Pfalzer. All rights reserved.
 //
 
+#include <algorithm>
 #include "apfev3/util.hpp"
 #include "apfev3/consumer.hpp"
 
@@ -47,6 +48,20 @@ Consumer::Mark::operator=(const Mark& from) {
 }
 
 Consumer::Token::~Token() {
+}
+ 
+std::ostream&
+Consumer::Location::operator<<(std::ostream& os) const {
+    os << filename << ":" << line << ":" << col;
+    return os;
+}
+
+std::ostream&
+Consumer::Token::operator<<(std::ostream& os) const {
+    std::string s = text;
+    replaceAll(replaceAll(s, "\"", "\\\""), "\n", "\\n");
+    os << location << ":" << '"' << s << '"';
+    return os;
 }
 
 }

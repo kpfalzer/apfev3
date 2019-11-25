@@ -9,6 +9,7 @@
 #ifndef apfev3_util_hpp
 #define apfev3_util_hpp
 
+#include <ostream>
 #include <string>
 #include <initializer_list>
 
@@ -25,11 +26,18 @@ inline void invariant(bool cond, const char* message) {
     }
 }
 
+std::string& replaceAll(std::string& s, const std::string& from, const std::string& to);
+
 template<class T>
 class SingleOwnerPtr {
 public:
     SingleOwnerPtr(T* p = nullptr) {
         __p = p;
+    }
+    
+    SingleOwnerPtr(const SingleOwnerPtr& from) {
+        __p = from.__p;
+        const_cast<SingleOwnerPtr&>(from).__p = nullptr;
     }
     
     SingleOwnerPtr& operator=(const SingleOwnerPtr& from) {
@@ -77,14 +85,33 @@ public:
         destroy();
     }
     
+    virtual std::ostream& operator<<(std::ostream& os) const {
+        os << this->operator*();
+        return os;
+    }
+    
 private:
     T* __p;
 };
 
-// std::forward_list is too complicated and doesn't work w/ references correctly.
+template<class T>
+std::ostream&
+operator<<(std::ostream& os, const SingleOwnerPtr<T>& ele) {
+    return ele.operator<<(os);
+}
+
+struct _SList {
+    static void open(const std::string& s);
+    static void close(const std::string& s);
+    static void sep(const std::string& s);
+protected:
+    static std::string _open, _close, _sep;
+};
+
+// std::forward_list implementation is too complicated and didn't work w/ references.
 // So, RYO (Roll Your Own).
 template<class T>
-class SList {
+class SList : public _SList {
 public:
     explicit SList()
     : __head(nullptr),
@@ -111,6 +138,24 @@ public:
         
     SList& operator<<(const T& r) {
         return append(r);
+    }
+    
+    virtual ~SList() {
+        for (Link* curr = __head; nullptr != curr; ) {
+            Link* next = curr->next;
+            delete curr;
+            curr = next;
+        }
+    }
+    
+    std::ostream& operator<<(std::ostream& os) const {
+        os << _open;
+        for (Link* curr = __head; nullptr != curr; curr = curr->next) {
+            if (__head != curr) os << _sep;
+            os << curr->data;
+        }
+        os << _close;
+        return os;
     }
     
 private:
@@ -156,6 +201,13 @@ private:
     Link* __head;
     Link* __tail;
 };
+
+template<class T>
+std::ostream&
+operator<<(std::ostream& os, const SList<T>& ele) {
+    return ele.operator<<(os);
+}
+
 }
 
 #define INVARIANT(_expr) apfev3::invariant(_expr, "Invariant failed: " #_expr)

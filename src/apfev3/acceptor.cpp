@@ -38,8 +38,7 @@ void Tokens::addAlternative(const TPTokens& alt) {
     if (nullptr == __items.alternatives) {
         __items.alternatives = new ListOfTokens();
     }
-    ListOfTokens* p = __items.alternatives;
-    p->append(alt);
+    __items.alternatives->append(alt);
 }
 
 Tokens::~Tokens(){
@@ -56,6 +55,25 @@ Tokens::~Tokens(){
         default:
             ;
     }
+}
+ 
+std::ostream& Tokens::operator<<(std::ostream& os) const {
+    switch(type) {
+        case eAlternatives:
+            os << *(__items.alternatives);
+            break;
+        case eSequence:
+            os << *(__items.sequence);
+            break;
+        case eTerminal:
+            os << *(__items.terminal);
+            break;
+        case eEmpty:
+            break;
+        default:
+            INVARIANT(false);
+    }
+    return os;
 }
 
 const TPTokens _Acceptor::accept(Consumer& consumer) const {

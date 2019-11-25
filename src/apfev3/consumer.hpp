@@ -9,6 +9,7 @@
 #ifndef apfev3_consumer_hpp
 #define apfev3_consumer_hpp
 
+#include <ostream>
 #include <cstdlib>
 #include "apfev3/charbuf.hpp"
 #include "apfev3/util.hpp"
@@ -39,6 +40,9 @@ public:
 
         const std::string& filename;
         const size_t    line, col;
+        
+        virtual std::ostream& operator<<(std::ostream& os) const;
+        
     };
     
     typedef SingleOwnerPtr<Location> TPLocation;
@@ -61,6 +65,8 @@ public:
         
         virtual ~Token();
         
+        virtual std::ostream& operator<<(std::ostream& os) const;
+
         const std::string text;
         const TPLocation location;
     };
@@ -114,6 +120,17 @@ private:
     size_t __pos;
     size_t __line, __col;
 };
+
+inline
+std::ostream& operator<<(std::ostream& os, const Consumer::Location& ele) {
+    return ele.operator<<(os);
+}
+
+inline
+std::ostream& operator<<(std::ostream& os, const Consumer::Token& ele) {
+    return ele.operator<<(os);
+}
+
 }
 
 #endif /* apfev3_consumer_hpp */

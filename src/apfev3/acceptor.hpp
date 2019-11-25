@@ -43,6 +43,8 @@ public:
         
     virtual ~Tokens();
     
+    virtual std::ostream& operator<<(std::ostream& os) const;
+    
 private:
     //not allowed
     const Tokens& operator=(const Tokens&);
@@ -58,6 +60,11 @@ private:
     } __items;
 };
 
+inline
+std::ostream& operator<<(std::ostream& os, const Tokens& ele) {
+    return ele.operator<<(os);
+}
+
 class _Acceptor {
 public:
     virtual ~_Acceptor() = 0;
@@ -65,9 +72,10 @@ public:
     //allow default copy constructors
     
     virtual const TPTokens accept(Consumer& consumer) const;
-    
+
 protected:
     virtual const TPTokens _accept(Consumer& consumer) const = 0;
+    
 };
 
 class Terminal : public _Acceptor {
@@ -79,7 +87,7 @@ public:
     //allow default copy constructors
     
     virtual ~Terminal(){}
-
+    
 protected:
     virtual const TPTokens _accept(Consumer& consumer) const;
     

@@ -44,20 +44,35 @@ int main(int argc, const char * argv[]) {
         INVARIANT(!match.isNull());
         INVARIANT(consumer.isEOF());
     }
-    /**/
+    if (true) {
+        const char* p = "abc_def \n\n";
+        apfev3::CharBuf cbuf(p);
+        apfev3::Consumer consumer(cbuf);
+        
+        static apfev3::TListOfAcceptor _TOKEN({&NUMBER,&IDENT});
+        //_TOKEN << &NUMBER << &IDENT;
+        
+        static apfev3::Alternatives TOKEN(_TOKEN);
+        apfev3::TPTokens match = TOKEN.accept(consumer);
+        INVARIANT(!match.isNull());
+        INVARIANT(consumer.isEOF());
+    }
     if (true) {
         const char* p = "abc_def 123 \n456 _123abc\n";
         apfev3::CharBuf cbuf(p);
         apfev3::Consumer consumer(cbuf);    
+        
         static apfev3::TListOfAcceptor _TOKEN({&NUMBER,&IDENT});
         //_TOKEN << &NUMBER << &IDENT;
+        
         static apfev3::Alternatives TOKEN(_TOKEN);
         static apfev3::Repetition TOKENS(TOKEN, apfev3::Repetition::eOneOrMore);
         apfev3::TPTokens match = TOKENS.accept(consumer);
         INVARIANT(!match.isNull());
         INVARIANT(consumer.isEOF());
+        
+        std::cout << "match=" << match << std::endl;
     }
-    /**/
     std::cout << "Hello world" << std::endl;
     return(0);
 }
