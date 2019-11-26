@@ -106,8 +106,10 @@ public:
 protected:
     virtual const TPTokens _accept(Consumer& consumer) const;
      
-private:
-    std::regex __rex;
+    virtual TPToken _create(Consumer& consumer, const std::string& text) const;
+    
+protected:
+    const std::regex _rex;
 };
 
 class Repetition : public _Acceptor {
@@ -163,5 +165,23 @@ protected:
 private:
     const TListOfAcceptor __eles;
 };
+
+// Some useful tokens
+namespace token {
+class Ident : public Regex {
+public:
+    explicit Ident();
+    
+    explicit Ident(const std::string& patt);
+    
+    //allow default copy constructors
+    
+    virtual TPToken _create(Consumer& consumer, const std::string& text) const;
+
+    virtual ~Ident();
+    
+    static const Ident& THE_ONE;
+};
+}
 }
 #endif /* apfev3_acceptor_hpp */

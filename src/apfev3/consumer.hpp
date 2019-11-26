@@ -36,6 +36,9 @@ public:
         : filename(here.filename()),line(here.__line), col(here.__col)
         {}
         
+        explicit Location(const std::string& filename, size_t line, size_t col)
+        : filename(filename), line(line), col(col) {}
+        
         //allow default copy constructors and destructor
 
         const std::string& filename;
@@ -89,6 +92,9 @@ public:
     
     // accept n chars
     const TPToken accept(size_t n);
+    
+    // accept n chars; but token is [start,end]
+    const TPToken accept(size_t n, size_t start, size_t end);
     
     bool isEOF() const {
         return (0 == rem());

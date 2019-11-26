@@ -106,18 +106,27 @@ const TPTokens Terminal::_accept(Consumer& consumer) const {
 }
 
 Regex::Regex(const std::string& pattern)
-: __rex(pattern.c_str()) {}
+: _rex(pattern.c_str()) {}
  
 const TPTokens Regex::_accept(Consumer& consumer) const {
     std::string s = "";
     size_t n = 0;
     for (; n < consumer.rem(); n++) {
         s += consumer[n];
-        if (! std::regex_match(s, __rex)) {
+        if (! std::regex_match(s, _rex)) {
             break;
         }
     }
-    return (0 < n) ? new Tokens(consumer.accept(n)) : nullptr;
+    if (0 < n) {
+        TPToken token = _create(consumer, s.substr(0,n));
+        return new Tokens(token);
+    } else {
+        return nullptr;
+    }
+}
+
+TPToken Regex::_create(Consumer& consumer, const std::string& text) const {
+    return consumer.accept(text.length());
 }
 
 const TPTokens Repetition::_accept(Consumer& consumer) const {
@@ -179,4 +188,20 @@ const TPTokens Alternatives::_accept(Consumer& consumer) const {
 Alternatives::~Alternatives()
 {}
 
+namespace token {
+
+static const std::string IDENT_PATT = "([_a-zA-Z][_a-zA-Z\\d]*)\\s*";
+Ident::Ident() : Ident(IDENT_PATT) {}
+Ident::Ident(const std::string& patt) : Regex(patt) {}
+Ident::~Ident() {}
+TPToken Ident::_create(Consumer& consumer, const std::string& text) const {
+    std::smatch match;
+    INVARIANT(std::regex_match(text, match, _rex));
+    const std::string ident = match[1];
+    return consumer.accept(text.length(), 0, match[1].length()-1);
+}
+
+/*static*/ const Ident& Ident::THE_ONE = Ident();
+
+}
 }
