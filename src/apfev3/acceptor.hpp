@@ -131,7 +131,7 @@ typedef SList<const _Acceptor*> TListOfAcceptor;
 class Sequence : public _Acceptor {
 public:
     // Constructor is {_Acceptor&...}
-    explicit Sequence(const TListOfAcceptor& eles)
+    explicit Sequence(const std::initializer_list<const _Acceptor*>& eles)
     : __eles(eles)
     {}
     
@@ -143,13 +143,13 @@ protected:
     virtual const TPTokens _accept(Consumer& consumer) const;
 
 private:
-    const TListOfAcceptor& __eles;
+    const TListOfAcceptor __eles;
 };
 
 class Alternatives : public _Acceptor {
 public:
     // Constructor is {_Acceptor&...}
-    explicit Alternatives(const TListOfAcceptor& eles)
+    explicit Alternatives(const std::initializer_list<const _Acceptor*>& eles)
     : __eles(eles)
     {}
     
@@ -161,7 +161,7 @@ protected:
     virtual const TPTokens _accept(Consumer& consumer) const;
     
 private:
-    const TListOfAcceptor& __eles;
+    const TListOfAcceptor __eles;
 };
 }
 #endif /* apfev3_acceptor_hpp */

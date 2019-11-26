@@ -104,6 +104,11 @@ struct _SList {
     static void open(const std::string& s);
     static void close(const std::string& s);
     static void sep(const std::string& s);
+    
+    static const std::string& open() {return _open;}
+    static const std::string& close() {return _close;}
+    static const std::string& sep() {return _sep;}
+
 protected:
     static std::string _open, _close, _sep;
 };

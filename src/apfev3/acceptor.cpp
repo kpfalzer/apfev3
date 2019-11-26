@@ -56,11 +56,24 @@ Tokens::~Tokens(){
             ;
     }
 }
- 
+
+static std::ostream& printAlternatives(std::ostream& os, const TPListOfTokens& eles) {
+    static const char* const SEP = " | ";
+    os << _SList::open();
+    const char* sep = nullptr;
+    for (auto iter = eles->iterator(); iter.hasMore(); ) {
+        if (nullptr != sep) os << sep;
+        iter.next()->operator<<(os);
+        sep = SEP;
+    }
+    os << _SList::close();
+    return os;
+}
+
 std::ostream& Tokens::operator<<(std::ostream& os) const {
     switch(type) {
         case eAlternatives:
-            os << *(__items.alternatives);
+            printAlternatives(os, __items.alternatives);
             break;
         case eSequence:
             os << *(__items.sequence);

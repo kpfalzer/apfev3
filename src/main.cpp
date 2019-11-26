@@ -49,10 +49,7 @@ int main(int argc, const char * argv[]) {
         apfev3::CharBuf cbuf(p);
         apfev3::Consumer consumer(cbuf);
         
-        static apfev3::TListOfAcceptor _TOKEN({&NUMBER,&IDENT});
-        //_TOKEN << &NUMBER << &IDENT;
-        
-        static apfev3::Alternatives TOKEN(_TOKEN);
+        static apfev3::Alternatives TOKEN({&NUMBER,&IDENT});
         apfev3::TPTokens match = TOKEN.accept(consumer);
         INVARIANT(!match.isNull());
         INVARIANT(consumer.isEOF());
@@ -62,10 +59,7 @@ int main(int argc, const char * argv[]) {
         apfev3::CharBuf cbuf(p);
         apfev3::Consumer consumer(cbuf);    
         
-        static apfev3::TListOfAcceptor _TOKEN({&NUMBER,&IDENT});
-        //_TOKEN << &NUMBER << &IDENT;
-        
-        static apfev3::Alternatives TOKEN(_TOKEN);
+        static apfev3::Alternatives TOKEN({&NUMBER,&IDENT});
         static apfev3::Repetition TOKENS(TOKEN, apfev3::Repetition::eOneOrMore);
         apfev3::TPTokens match = TOKENS.accept(consumer);
         INVARIANT(!match.isNull());
