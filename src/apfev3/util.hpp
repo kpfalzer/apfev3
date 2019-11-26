@@ -9,6 +9,7 @@
 #ifndef apfev3_util_hpp
 #define apfev3_util_hpp
 
+#include <stdexcept>
 #include <ostream>
 #include <string>
 #include <initializer_list>

@@ -6,6 +6,7 @@
 //  Copyright © 2019 Karl W Pfalzer. All rights reserved.
 //
 
+#include <cstring>
 #include <cstdlib>
 #include "apfev3/util.hpp"
 #include "apfev3/charbuf.hpp"
