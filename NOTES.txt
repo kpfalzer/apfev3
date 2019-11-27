@@ -1,0 +1,1 @@
+g++ on linux/vbox: g++ -I/home/localadmin/projects/apfev3/src -g -std=c++11 ../../src/apfev3/*.cpp ../../src/main.cpp -o main -static-libstdc++
