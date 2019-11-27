@@ -19,6 +19,8 @@ class Consumer {
 public:
     explicit Consumer(const CharBuf& buf);
     
+    struct Mark;
+    
     //allow default copy constructors and destructor
     
     char operator[](size_t n) const {

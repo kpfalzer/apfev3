@@ -52,7 +52,7 @@ int main(int argc, const char * argv[]) {
         static apfev3::Alternatives TOKEN({&NUMBER,&IDENT});
         apfev3::TPTokens match = TOKEN.accept(consumer);
         INVARIANT(!match.isNull());
-        INVARIANT(consumer.isEOF());
+        //INVARIANT(consumer.isEOF());
     }
     if (true) {
         const char* p = "abc_def 123 \n456 _123abc\n";
@@ -63,7 +63,7 @@ int main(int argc, const char * argv[]) {
         static apfev3::Repetition TOKENS(TOKEN, apfev3::Repetition::eOneOrMore);
         apfev3::TPTokens match = TOKENS.accept(consumer);
         INVARIANT(!match.isNull());
-        INVARIANT(consumer.isEOF());
+        //INVARIANT(consumer.isEOF());
         
         std::cout << "match=" << match << std::endl;
     }

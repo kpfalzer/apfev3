@@ -105,6 +105,8 @@ public:
 
 protected:
     virtual const TPTokens _accept(Consumer& consumer) const;
+    
+    virtual TPToken _skipTrailingWs(Consumer& consumer, const std::string& text) const;
      
     virtual TPToken _create(Consumer& consumer, const std::string& text) const;
     
@@ -168,8 +170,10 @@ private:
 
 // Some useful tokens
 namespace token {
+
 class Ident : public Regex {
 public:
+    // Use default pattern
     explicit Ident();
     
     explicit Ident(const std::string& patt);
@@ -182,6 +186,7 @@ public:
     
     static const Ident& THE_ONE;
 };
-}
-}
+
+}   //namespace token
+}   //namespace apfev3
 #endif /* apfev3_acceptor_hpp */

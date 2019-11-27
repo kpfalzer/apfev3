@@ -129,6 +129,13 @@ TPToken Regex::_create(Consumer& consumer, const std::string& text) const {
     return consumer.accept(text.length());
 }
 
+TPToken Regex::_skipTrailingWs(Consumer& consumer, const std::string& text) const {
+    std::smatch match;
+    INVARIANT(std::regex_match(text, match, _rex));
+    const std::string ident = match[1];
+    return consumer.accept(text.length(), 0, match[1].length()-1);
+}
+
 const TPTokens Repetition::_accept(Consumer& consumer) const {
     TPTokens p;
     ListOfTokens* tokens = nullptr;
@@ -170,10 +177,12 @@ const TPTokens Sequence::_accept(Consumer& consumer) const {
 Sequence::~Sequence()
 {}
 
-const TPTokens Alternatives::_accept(Consumer& consumer) const {
+// Try all alternatives
+const TPTokens Alternatives::_accept(Consumer& xconsumer) const {
     TPTokens p;
     Tokens* alts = nullptr;
     for (auto iter = __eles.iterator(); iter.hasMore(); ) {
+        Consumer consumer(xconsumer);
         p = iter.next()->accept(consumer);
         if (nullptr != p) {
             if (nullptr == alts) {
@@ -195,10 +204,7 @@ Ident::Ident() : Ident(IDENT_PATT) {}
 Ident::Ident(const std::string& patt) : Regex(patt) {}
 Ident::~Ident() {}
 TPToken Ident::_create(Consumer& consumer, const std::string& text) const {
-    std::smatch match;
-    INVARIANT(std::regex_match(text, match, _rex));
-    const std::string ident = match[1];
-    return consumer.accept(text.length(), 0, match[1].length()-1);
+    return _skipTrailingWs(consumer, text);
 }
 
 /*static*/ const Ident& Ident::THE_ONE = Ident();
