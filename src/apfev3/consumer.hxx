@@ -1,27 +1,27 @@
 //
-//  consumer.hpp
+//  consumer.hxx
 //  apfev3
 //
 //  Created by Karl W Pfalzer on 11/20/19.
 //  Copyright © 2019 Karl W Pfalzer. All rights reserved.
 //
 
-#ifndef apfev3_consumer_hpp
-#define apfev3_consumer_hpp
+#ifndef apfev3_consumer_hxx
+#define apfev3_consumer_hxx
 
 #include <ostream>
 #include <cstdlib>
-#include "apfev3/charbuf.hpp"
-#include "apfev3/util.hpp"
+#include "apfev3/charbuf.hxx"
+#include "apfev3/util.hxx"
 
 namespace apfev3 {
 class Consumer {
 public:
     explicit Consumer(const CharBuf& buf);
     
-    struct Mark;
+    explicit Consumer(const Consumer& from);
     
-    //allow default copy constructors and destructor
+    struct Mark;
     
     char operator[](size_t n) const {
         return la(n);
@@ -110,11 +110,9 @@ public:
         return Mark(__pos, __line, __col);
     }
     
-    void rewind(const Mark& mark) {
-        __pos = mark.pos;
-        __line = mark.line;
-        __col = mark.col;
-    }
+    void rewind(const Mark& mark);
+    
+    void rewind(const Consumer& from);
     
     TPLocation location() const {
         return new Location(*this);
@@ -123,11 +121,45 @@ public:
     const std::string& filename() const {
         return __buf.fileName;
     }
+    
+    virtual std::ostream& operator<<(std::ostream& os) const;
+
+    typedef SList<Consumer> ConsumerList;
+    typedef SingleOwnerPtr<ConsumerList> TPConsumerList;
+    
+    TPConsumerList& alts() {
+        return __alts;
+    }
+    
+    bool hasAlts() const {
+        return __alts.isValid() && !__alts->isEmpty();
+    }
+    
+    TPConsumerList& addAlt(const Consumer& consumer);
+    
+    void replaceAlts(TPConsumerList& from);
+    
+    bool operator==(const Consumer& other) const;
+    
+    bool operator!=(const Consumer& other) const {
+        return !this->operator==(other);
+    }
+    
 private:
+    // Use method rewind() to be more explicit
+    const Consumer& operator=(const Consumer& from);
+    
+    TPConsumerList __alts;
     const CharBuf&  __buf;
     size_t __pos;
     size_t __line, __col;
 };
+
+typedef Consumer::ConsumerList ConsumerList;
+typedef Consumer::TPConsumerList TPConsumerList;
+
+// Append consumer to list if not exist
+void append(TPConsumerList& list, const Consumer& consumer);
 
 inline
 std::ostream& operator<<(std::ostream& os, const Consumer::Location& ele) {
@@ -139,6 +171,11 @@ std::ostream& operator<<(std::ostream& os, const Consumer::Token& ele) {
     return ele.operator<<(os);
 }
 
+inline
+std::ostream& operator<<(std::ostream& os, const Consumer& ele) {
+    return ele.operator<<(os);
 }
 
-#endif /* apfev3_consumer_hpp */
+}
+
+#endif /* apfev3_consumer_hxx */

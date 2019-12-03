@@ -1,5 +1,5 @@
 //
-//  main.cpp
+//  main.cxx
 //  apfev3
 //
 //  Created by Karl W Pfalzer on 11/20/19.
@@ -7,7 +7,7 @@
 //
 
 #include <iostream>
-#include "apfev3/acceptor.hpp"
+#include "apfev3/acceptor.hxx"
 
 int main(int argc, const char * argv[]) {
     {
@@ -57,13 +57,13 @@ int main(int argc, const char * argv[]) {
     if (true) {
         const char* p = "abc_def 123 \n456 _123abc\n";
         apfev3::CharBuf cbuf(p);
-        apfev3::Consumer consumer(cbuf);    
+        apfev3::Consumer consumer(cbuf);
         
         static apfev3::Alternatives TOKEN({&NUMBER,&apfev3::token::Ident::THE_ONE});
         static apfev3::Repetition TOKENS(TOKEN, apfev3::Repetition::eOneOrMore);
         apfev3::TPTokens match = TOKENS.accept(consumer);
         INVARIANT(!match.isNull());
-        //INVARIANT(consumer.isEOF());
+        INVARIANT(consumer.isEOF());
         
         std::cout << "match=" << match << std::endl;
     }

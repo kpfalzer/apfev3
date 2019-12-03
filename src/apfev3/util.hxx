@@ -1,13 +1,13 @@
 //
-//  util.hpp
+//  util.hxx
 //  apfev3
 //
 //  Created by Karl W Pfalzer on 11/20/19.
 //  Copyright © 2019 Karl W Pfalzer. All rights reserved.
 //
 
-#ifndef apfev3_util_hpp
-#define apfev3_util_hpp
+#ifndef apfev3_util_hxx
+#define apfev3_util_hxx
 
 #include <stdexcept>
 #include <ostream>
@@ -45,6 +45,10 @@ public:
         __p = from.__p;
         const_cast<SingleOwnerPtr&>(from).__p = nullptr;
         return *this;
+    }
+    
+    bool isValid() const {
+        return !isNull();
     }
     
     bool isNull() const {
@@ -102,6 +106,8 @@ operator<<(std::ostream& os, const SingleOwnerPtr<T>& ele) {
 }
 
 struct _SList {
+    _SList() : _length(0) {}
+    
     static void open(const std::string& s);
     static void close(const std::string& s);
     static void sep(const std::string& s);
@@ -110,8 +116,16 @@ struct _SList {
     static const std::string& close() {return _close;}
     static const std::string& sep() {return _sep;}
 
+    size_t length() const {
+        return _length;
+    }
+    
+    bool isEmpty() const {
+        return (0 == length());
+    }
 protected:
     static std::string _open, _close, _sep;
+    size_t _length;
 };
 
 // std::forward_list implementation is too complicated and didn't work w/ references.
@@ -127,6 +141,7 @@ public:
     explicit SList(const std::initializer_list<T>& from) : SList() {
         for (auto iter = from.begin(); iter != from.end(); iter++) {
             append(*iter);
+            _length += 1;
         }
     }
     
@@ -139,6 +154,7 @@ public:
             __tail->next = p;
             __tail = p;
         }
+        _length += 1;
         return *this;
     }
         
@@ -152,6 +168,7 @@ public:
             delete curr;
             curr = next;
         }
+        _length = 0;
     }
     
     std::ostream& operator<<(std::ostream& os) const {
@@ -182,8 +199,8 @@ public:
             return (nullptr != __curr);
         }
         
-        T next() {
-            T rval = __curr->data;
+        T& next() {
+            T& rval = __curr->data;
             __curr = __curr->next;
             return rval;
         }
@@ -218,4 +235,4 @@ operator<<(std::ostream& os, const SList<T>& ele) {
 
 #define INVARIANT(_expr) apfev3::invariant(_expr, "Invariant failed: " #_expr)
 
-#endif /* apfev3_util_hpp */
+#endif /* apfev3_util_hxx */

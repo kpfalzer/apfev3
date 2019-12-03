@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F4AE87392385EFA300E03523 /* charbuf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4AE87372385EFA300E03523 /* charbuf.cpp */; };
-		F4AE873C2385FD1400E03523 /* consumer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4AE873A2385FD1400E03523 /* consumer.cpp */; };
-		F4AE873F2386180800E03523 /* acceptor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4AE873D2386180800E03523 /* acceptor.cpp */; };
-		F4CB19BB2385E32800EF9C85 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4CB19BA2385E32800EF9C85 /* main.cpp */; };
-		F4CB19D02385EA6800EF9C85 /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4CB19CE2385EA6800EF9C85 /* util.cpp */; };
+		F4AE87392385EFA300E03523 /* charbuf.cxx in Sources */ = {isa = PBXBuildFile; fileRef = F4AE87372385EFA300E03523 /* charbuf.cxx */; };
+		F4AE873C2385FD1400E03523 /* consumer.cxx in Sources */ = {isa = PBXBuildFile; fileRef = F4AE873A2385FD1400E03523 /* consumer.cxx */; };
+		F4AE873F2386180800E03523 /* acceptor.cxx in Sources */ = {isa = PBXBuildFile; fileRef = F4AE873D2386180800E03523 /* acceptor.cxx */; };
+		F4CB19BB2385E32800EF9C85 /* main.cxx in Sources */ = {isa = PBXBuildFile; fileRef = F4CB19BA2385E32800EF9C85 /* main.cxx */; };
+		F4CB19D02385EA6800EF9C85 /* util.cxx in Sources */ = {isa = PBXBuildFile; fileRef = F4CB19CE2385EA6800EF9C85 /* util.cxx */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -27,16 +27,16 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		F4AE87372385EFA300E03523 /* charbuf.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = charbuf.cpp; sourceTree = "<group>"; };
-		F4AE87382385EFA300E03523 /* charbuf.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = charbuf.hpp; sourceTree = "<group>"; };
-		F4AE873A2385FD1400E03523 /* consumer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = consumer.cpp; sourceTree = "<group>"; };
-		F4AE873B2385FD1400E03523 /* consumer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = consumer.hpp; sourceTree = "<group>"; };
-		F4AE873D2386180800E03523 /* acceptor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = acceptor.cpp; sourceTree = "<group>"; };
-		F4AE873E2386180800E03523 /* acceptor.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = acceptor.hpp; sourceTree = "<group>"; };
+		F4AE87372385EFA300E03523 /* charbuf.cxx */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = charbuf.cxx; sourceTree = "<group>"; };
+		F4AE87382385EFA300E03523 /* charbuf.hxx */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = charbuf.hxx; sourceTree = "<group>"; };
+		F4AE873A2385FD1400E03523 /* consumer.cxx */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = consumer.cxx; sourceTree = "<group>"; };
+		F4AE873B2385FD1400E03523 /* consumer.hxx */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = consumer.hxx; sourceTree = "<group>"; };
+		F4AE873D2386180800E03523 /* acceptor.cxx */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = acceptor.cxx; sourceTree = "<group>"; };
+		F4AE873E2386180800E03523 /* acceptor.hxx */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = acceptor.hxx; sourceTree = "<group>"; };
 		F4CB19B72385E32800EF9C85 /* apfev3 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = apfev3; sourceTree = BUILT_PRODUCTS_DIR; };
-		F4CB19BA2385E32800EF9C85 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		F4CB19CE2385EA6800EF9C85 /* util.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = util.cpp; sourceTree = "<group>"; };
-		F4CB19CF2385EA6800EF9C85 /* util.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = util.hpp; sourceTree = "<group>"; };
+		F4CB19BA2385E32800EF9C85 /* main.cxx */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cxx; sourceTree = "<group>"; };
+		F4CB19CE2385EA6800EF9C85 /* util.cxx */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = util.cxx; sourceTree = "<group>"; };
+		F4CB19CF2385EA6800EF9C85 /* util.hxx */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = util.hxx; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,7 +70,7 @@
 			isa = PBXGroup;
 			children = (
 				F4CB19CD2385E9CF00EF9C85 /* apfev3 */,
-				F4CB19BA2385E32800EF9C85 /* main.cpp */,
+				F4CB19BA2385E32800EF9C85 /* main.cxx */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -78,14 +78,14 @@
 		F4CB19CD2385E9CF00EF9C85 /* apfev3 */ = {
 			isa = PBXGroup;
 			children = (
-				F4CB19CE2385EA6800EF9C85 /* util.cpp */,
-				F4CB19CF2385EA6800EF9C85 /* util.hpp */,
-				F4AE87372385EFA300E03523 /* charbuf.cpp */,
-				F4AE87382385EFA300E03523 /* charbuf.hpp */,
-				F4AE873A2385FD1400E03523 /* consumer.cpp */,
-				F4AE873B2385FD1400E03523 /* consumer.hpp */,
-				F4AE873D2386180800E03523 /* acceptor.cpp */,
-				F4AE873E2386180800E03523 /* acceptor.hpp */,
+				F4CB19CE2385EA6800EF9C85 /* util.cxx */,
+				F4CB19CF2385EA6800EF9C85 /* util.hxx */,
+				F4AE87372385EFA300E03523 /* charbuf.cxx */,
+				F4AE87382385EFA300E03523 /* charbuf.hxx */,
+				F4AE873A2385FD1400E03523 /* consumer.cxx */,
+				F4AE873B2385FD1400E03523 /* consumer.hxx */,
+				F4AE873D2386180800E03523 /* acceptor.cxx */,
+				F4AE873E2386180800E03523 /* acceptor.hxx */,
 			);
 			path = apfev3;
 			sourceTree = "<group>";
@@ -147,11 +147,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F4AE873F2386180800E03523 /* acceptor.cpp in Sources */,
-				F4AE87392385EFA300E03523 /* charbuf.cpp in Sources */,
-				F4AE873C2385FD1400E03523 /* consumer.cpp in Sources */,
-				F4CB19BB2385E32800EF9C85 /* main.cpp in Sources */,
-				F4CB19D02385EA6800EF9C85 /* util.cpp in Sources */,
+				F4AE873F2386180800E03523 /* acceptor.cxx in Sources */,
+				F4AE87392385EFA300E03523 /* charbuf.cxx in Sources */,
+				F4AE873C2385FD1400E03523 /* consumer.cxx in Sources */,
+				F4CB19BB2385E32800EF9C85 /* main.cxx in Sources */,
+				F4CB19D02385EA6800EF9C85 /* util.cxx in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,5 +1,5 @@
 //
-//  consumer.cpp
+//  consumer.cxx
 //  apfev3
 //
 //  Created by Karl W Pfalzer on 11/20/19.
@@ -7,8 +7,8 @@
 //
 
 #include <algorithm>
-#include "apfev3/util.hpp"
-#include "apfev3/consumer.hpp"
+#include "apfev3/util.hxx"
+#include "apfev3/consumer.hxx"
 
 namespace apfev3 {
 
@@ -18,6 +18,62 @@ __pos(0),
 __line(1),
 __col(1)
 {}
+
+Consumer::Consumer(const Consumer& from)
+: __buf(from.__buf),
+__pos(from.__pos),
+__line(from.__line),
+__col(from.__col)
+{}
+
+// Append consumer to list if not exist
+void append(TPConsumerList& list, const Consumer& consumer) {
+    bool noMatch = true;
+    if (list.isNull()) {
+        list = new ConsumerList();
+    } else {
+        for (auto iter = list->iterator(); noMatch && iter.hasMore(); ) {
+            if (iter.next() == consumer) {
+                noMatch = false;
+            }
+        }
+    }
+    if (noMatch) {
+        list->append(consumer);
+    }
+}
+
+TPConsumerList& Consumer::addAlt(const Consumer& consumer) {
+    if (*this != consumer) {
+        append(alts(), consumer);
+    }
+    return alts();
+}
+
+void Consumer::replaceAlts(TPConsumerList& from) {
+    if (from.isNull() || from->isEmpty()) {
+        from.destroy();
+        __alts.destroy();
+    } else {
+        __alts = from;
+    }
+}
+
+bool Consumer::operator==(const Consumer& other) const {
+    return (&__buf == &other.__buf) && (__pos == other.__pos);
+}
+
+void Consumer::rewind(const Mark& mark) {
+    __pos = mark.pos;
+    __line = mark.line;
+    __col = mark.col;
+}
+
+void Consumer::rewind(const Consumer& from) {
+    __pos = from.__pos;
+    __line = from.__line;
+    __col = from.__col;
+}
 
 const Consumer::TPToken Consumer::accept(size_t n) {
     return accept(n,0,n-1);
@@ -64,6 +120,12 @@ Consumer::Mark::operator=(const Mark& from) {
 Consumer::Token::~Token() {
 }
  
+std::ostream&
+Consumer::operator<<(std::ostream& os) const {
+    os << filename() << ":" << __line << ":" << __col << '[' << __pos << ']';
+    return os;
+}
+
 std::ostream&
 Consumer::Location::operator<<(std::ostream& os) const {
     os << filename << ":" << line << ":" << col;

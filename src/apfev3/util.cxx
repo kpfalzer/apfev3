@@ -9,7 +9,7 @@
 #include <string>
 #include <cstdio>
 #include <cstdlib>
-#include "apfev3/util.hpp"
+#include "apfev3/util.hxx"
 
 namespace apfev3 {
 

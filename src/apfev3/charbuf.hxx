@@ -1,13 +1,13 @@
 //
-//  charbuf.hpp
+//  charbuf.hxx
 //  apfev3
 //
 //  Created by Karl W Pfalzer on 11/20/19.
 //  Copyright © 2019 Karl W Pfalzer. All rights reserved.
 //
 
-#ifndef apfev3_charbuf_hpp
-#define apfev3_charbuf_hpp
+#ifndef apfev3_charbuf_hxx
+#define apfev3_charbuf_hxx
 
 #include <string>
 
@@ -43,4 +43,4 @@ private:
 };
 }
 
-#endif /* apfev3_charbuf_hpp */
+#endif /* apfev3_charbuf_hxx */

@@ -1,5 +1,5 @@
 //
-//  charbuf.cpp
+//  charbuf.cxx
 //  apfev3
 //
 //  Created by Karl W Pfalzer on 11/20/19.
@@ -8,8 +8,8 @@
 
 #include <cstring>
 #include <cstdlib>
-#include "apfev3/util.hpp"
-#include "apfev3/charbuf.hpp"
+#include "apfev3/util.hxx"
+#include "apfev3/charbuf.hxx"
 
 namespace apfev3 {
 CharBuf::CharBuf(const std::string fname)

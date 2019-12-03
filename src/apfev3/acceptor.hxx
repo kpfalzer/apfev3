@@ -1,16 +1,16 @@
 //
-//  acceptor.hpp
+//  acceptor.hxx
 //  apfev3
 //
 //  Created by Karl W Pfalzer on 11/20/19.
 //  Copyright © 2019 Karl W Pfalzer. All rights reserved.
 //
 
-#ifndef apfev3_acceptor_hpp
-#define apfev3_acceptor_hpp
+#ifndef apfev3_acceptor_hxx
+#define apfev3_acceptor_hxx
 
 #include <regex>
-#include "apfev3/consumer.hpp"
+#include "apfev3/consumer.hxx"
 
 namespace apfev3 {
 typedef Consumer::Token Token;
@@ -18,8 +18,8 @@ typedef SingleOwnerPtr<Token> TPToken;
 class Tokens;
 typedef SingleOwnerPtr<Tokens> TPTokens;
 
-typedef SList<const TPTokens> ListOfTokens;
-typedef SingleOwnerPtr<ListOfTokens>   TPListOfTokens;
+typedef SList<const TPTokens> TokensList;
+typedef SingleOwnerPtr<TokensList>   TPTokensList;
 
 class Tokens {
 public:
@@ -32,7 +32,7 @@ public:
     // Simple constructor for single element.
     explicit Tokens(const TPToken& ele);
     
-    explicit Tokens(const TPListOfTokens& from);
+    explicit Tokens(const TPTokensList& from, EType type = eSequence);
     
     explicit Tokens(const TPTokens& from);
     
@@ -53,8 +53,8 @@ private:
     
     union U {
         TPToken terminal;
-        TPListOfTokens sequence;
-        TPListOfTokens alternatives;
+        TPTokensList sequence;
+        TPTokensList alternatives;
         ~U(){}
         U(){}
     } __items;
@@ -76,6 +76,8 @@ public:
 protected:
     virtual const TPTokens _accept(Consumer& consumer) const = 0;
     
+private:
+    const TPTokens __accept(Consumer& consumer) const;
 };
 
 class Terminal : public _Acceptor {
@@ -130,7 +132,7 @@ private:
     const _Acceptor& __ele;
 };
 
-typedef SList<const _Acceptor*> TListOfAcceptor;
+typedef SList<const _Acceptor*> AcceptorList;
 
 class Sequence : public _Acceptor {
 public:
@@ -147,7 +149,7 @@ protected:
     virtual const TPTokens _accept(Consumer& consumer) const;
 
 private:
-    const TListOfAcceptor __eles;
+    const AcceptorList __eles;
 };
 
 class Alternatives : public _Acceptor {
@@ -165,7 +167,7 @@ protected:
     virtual const TPTokens _accept(Consumer& consumer) const;
     
 private:
-    const TListOfAcceptor __eles;
+    const AcceptorList __eles;
 };
 
 // Some useful tokens
@@ -189,4 +191,4 @@ public:
 
 }   //namespace token
 }   //namespace apfev3
-#endif /* apfev3_acceptor_hpp */
+#endif /* apfev3_acceptor_hxx */
