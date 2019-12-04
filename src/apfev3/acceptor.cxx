@@ -251,6 +251,33 @@ TPToken Ident::_create(Consumer& consumer, const std::string& text) const {
 }
 
 /*static*/ const Ident& Ident::THE_ONE = Ident();
+ 
+const TPTokens
+LineComment::_accept(Consumer& consumer) const {
+    if (consumer[0] != '/' || consumer[1] != '/')
+        return nullptr;
+    size_t n = 2;
+    for (; consumer[n] != '\n' && !consumer.isEOF(n); ++n)
+        ;
+    if (consumer.isEOF(n))
+        --n;
+    return new Tokens(consumer.accept(n+1));
+}
+
+/*static*/ const LineComment& LineComment::THE_ONE = LineComment();
+
+const TPTokens
+BlockComment::_accept(Consumer& consumer) const {
+    if (consumer[0] != '/' || consumer[1] != '*')
+        return nullptr;
+    size_t n = 2;
+    for (; !(consumer[n] == '*' && consumer[n+1] == '/') && !consumer.isEOF(n); ++n)
+        ;
+    INVARIANT(!consumer.isEOF(n));
+    return new Tokens(consumer.accept(n+2));
+}
+
+/*static*/ const BlockComment& BlockComment::THE_ONE = BlockComment();
 
 }
 }

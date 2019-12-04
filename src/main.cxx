@@ -67,6 +67,29 @@ int main(int argc, const char * argv[]) {
         
         std::cout << "match=" << match << std::endl;
     }
+    if (true) {
+        const char* p =
+        "abc_def \n"
+        "// this is a line comment\n"
+        "//and this is one too\n"
+        "/*block\n"
+        "\n"
+        "//*/IDENT  and_ident1111";
+        apfev3::CharBuf cbuf(p);
+        apfev3::Consumer consumer(cbuf);
+        
+        static apfev3::Alternatives TOKEN({
+            &apfev3::token::Ident::THE_ONE,
+            &apfev3::token::LineComment::THE_ONE,
+            &apfev3::token::BlockComment::THE_ONE
+        });
+        static apfev3::Repetition TOKENS(TOKEN, apfev3::Repetition::eOneOrMore);
+        apfev3::TPTokens match = TOKENS.accept(consumer);
+        INVARIANT(!match.isNull());
+        //INVARIANT(consumer.isEOF());
+        
+        std::cout << "match=" << match << std::endl;
+    }
     std::cout << "Hello world" << std::endl;
     return(0);
 }

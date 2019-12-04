@@ -189,6 +189,40 @@ public:
     static const Ident& THE_ONE;
 };
 
+class LineComment : public _Acceptor {
+public:
+    // Use default pattern
+    explicit LineComment()
+    {}
+    
+    //allow default copy constructors
+    
+    virtual ~LineComment()
+    {}
+    
+    static const LineComment& THE_ONE;
+    
+protected:
+    virtual const TPTokens _accept(Consumer& consumer) const;
+};
+
+class BlockComment : public _Acceptor {
+public:
+    // Use default pattern
+    explicit BlockComment()
+    {}
+    
+    //allow default copy constructors
+    
+    virtual ~BlockComment()
+    {}
+    
+    static const BlockComment& THE_ONE;
+    
+protected:
+    virtual const TPTokens _accept(Consumer& consumer) const;
+};
+
 }   //namespace token
 }   //namespace apfev3
 #endif /* apfev3_acceptor_hxx */

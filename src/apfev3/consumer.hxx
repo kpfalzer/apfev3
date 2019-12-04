@@ -98,12 +98,12 @@ public:
     // accept n chars; but token is [start,end]
     const TPToken accept(size_t n, size_t start, size_t end);
     
-    bool isEOF() const {
-        return (0 == rem());
+    bool isEOF(size_t offset = 0) const {
+        return (0 >= rem(offset));
     }
     
-    size_t rem() const {
-        return __buf.length() - __pos;
+    size_t rem(size_t offset = 0) const {
+        return __buf.length() - (__pos + offset);
     }
     
     Mark mark() const {

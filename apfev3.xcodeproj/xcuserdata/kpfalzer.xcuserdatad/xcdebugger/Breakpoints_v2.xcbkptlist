@@ -7,15 +7,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "F44BCEA4-E531-4F32-ABC4-43AE688CC35F"
-            shouldBeEnabled = "Yes"
+            uuid = "0850B49D-23CD-438E-AD40-572BEB6B5D96"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/main.cpp"
+            filePath = "src/main.cxx"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "64"
-            endingLineNumber = "64"
+            startingLineNumber = "88"
+            endingLineNumber = "88"
             landmarkName = "main(argc, argv)"
             landmarkType = "9">
          </BreakpointContent>
@@ -23,32 +23,48 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "D4CD4DBC-62C5-4DD9-84F4-42B8DC1E50AF"
-            shouldBeEnabled = "Yes"
+            uuid = "9546718A-7A37-459E-9BF8-C5DB194013C1"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/apfev3/acceptor.cpp"
+            filePath = "src/apfev3/acceptor.cxx"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "177"
-            endingLineNumber = "177"
-            landmarkName = "Repetition::_accept(consumer)"
+            startingLineNumber = "264"
+            endingLineNumber = "264"
+            landmarkName = "LineComment::_accept(consumer)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "DCCB2888-953D-498F-9090-3B24844E3BE5"
-            shouldBeEnabled = "Yes"
+            uuid = "42D8B992-D08B-4075-A6C6-EA98C385C039"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/apfev3/acceptor.cpp"
+            filePath = "src/apfev3/consumer.cxx"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "220"
-            endingLineNumber = "220"
-            landmarkName = "Alternatives::_accept(consumer)"
+            startingLineNumber = "107"
+            endingLineNumber = "107"
+            landmarkName = "Consumer::accept(n, start, end)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4809EEA9-73D1-4000-BC98-7BE30124B03D"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/apfev3/acceptor.cxx"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "260"
+            endingLineNumber = "260"
+            landmarkName = "LineComment::_accept(consumer)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
