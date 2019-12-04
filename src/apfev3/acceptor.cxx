@@ -130,7 +130,7 @@ _Acceptor::accept(Consumer& consumer) const {
 
 const TPTokens
 _Acceptor::__accept(Consumer& consumer) const {
-    return (consumer.isEOF()) ? nullptr : _accept(consumer);
+    return (!_checksForEOF() && consumer.isEOF()) ? nullptr : _accept(consumer);
 }
 
 _Acceptor::~_Acceptor() {}
@@ -310,5 +310,13 @@ Spacing::_accept(Consumer& consumer) const {
 }
 
 /*static*/ const Spacing& Spacing::THE_ONE = Spacing();
+
+const TPTokens
+EndOfFile::_accept(Consumer& consumer) const {
+    return (consumer.isEOF()) ? new Tokens(new Token("<EOF>", consumer)) : nullptr;
+}
+
+/*static*/ const EndOfFile& EndOfFile::THE_ONE = EndOfFile();
+
 }
 }

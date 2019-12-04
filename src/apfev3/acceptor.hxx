@@ -76,6 +76,11 @@ public:
 protected:
     virtual const TPTokens _accept(Consumer& consumer) const = 0;
     
+    // Subclass which checks for EOF should return false.
+    virtual bool _checksForEOF() const {
+        return false;
+    }
+    
 private:
     const TPTokens __accept(Consumer& consumer) const;
 };
@@ -254,6 +259,27 @@ public:
 
 protected:
     virtual const TPTokens _accept(Consumer& consumer) const;
+};
+
+class EndOfFile : public _Acceptor {
+public:
+    // Use default pattern
+    explicit EndOfFile()
+    {}
+    
+    //allow default copy constructors
+    
+    virtual ~EndOfFile()
+    {}
+    
+    static const EndOfFile& THE_ONE;
+
+protected:
+    virtual const TPTokens _accept(Consumer& consumer) const;
+    
+    virtual bool _checksForEOF() const {
+        return true;
+    }
 };
 
 }   //namespace token

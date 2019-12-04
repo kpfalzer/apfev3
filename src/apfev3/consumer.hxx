@@ -35,16 +35,16 @@ public:
     
     struct Location {
         explicit Location(const Consumer& here)
-        : filename(here.filename()),line(here.__line), col(here.__col)
+        : filename(here.filename()),line(here.__line), col(here.__col), pos(here.__pos)
         {}
         
-        explicit Location(const std::string& filename, size_t line, size_t col)
-        : filename(filename), line(line), col(col) {}
+        explicit Location(const std::string& filename, size_t line, size_t col, size_t pos)
+        : filename(filename), line(line), col(col), pos(pos) {}
         
         //allow default copy constructors and destructor
 
         const std::string& filename;
-        const size_t    line, col;
+        const size_t    line, col, pos;
         
         virtual std::ostream& operator<<(std::ostream& os) const;
         

@@ -82,7 +82,7 @@ const Consumer::TPToken Consumer::accept(size_t n) {
 const Consumer::TPToken Consumer::accept(size_t n, size_t start, size_t end) {
     INVARIANT(n <= rem());
     INVARIANT(end >= start);
-    size_t line = 0, col = 0;
+    const size_t line = __line, col = __col,  pos = __pos;
     const size_t nn = 1+end-start;
     INVARIANT(0 < nn);
     char buf[nn];
@@ -91,10 +91,6 @@ const Consumer::TPToken Consumer::accept(size_t n, size_t start, size_t end) {
         c = this->operator[](i);
         if ((i >= start) && (i <= end)) {
             buf[i] = c;
-            if (0 == line) {
-                line = __line;
-                col = __col;
-            }
         }
         if (c == '\n') {
             __line += 1;
@@ -105,7 +101,7 @@ const Consumer::TPToken Consumer::accept(size_t n, size_t start, size_t end) {
     buf[nn] = '\0';
     __pos += n;
     std::string text(buf);
-    Location here(this->filename(), line, col);
+    Location here(this->filename(), line, col, pos);
     return new Token(text, here);
 }
 
@@ -128,7 +124,10 @@ Consumer::operator<<(std::ostream& os) const {
 
 std::ostream&
 Consumer::Location::operator<<(std::ostream& os) const {
-    os << filename << ":" << line << ":" << col;
+    if (true)
+        os << '[' << pos << ']';
+    else
+        os << filename << ":" << line << ":" << col << '[' << pos << ']';
     return os;
 }
 

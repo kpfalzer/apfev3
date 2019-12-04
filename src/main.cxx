@@ -30,6 +30,8 @@ int main(int argc, const char * argv[]) {
         apfev3::Regex rex("\\d+");
         apfev3::TPTokens match = rex.accept(consumer);
         INVARIANT(!match.isNull());
+        match = apfev3::token::EndOfFile::THE_ONE.accept(consumer);
+        INVARIANT(match.isValid());
         INVARIANT(consumer.isEOF());
     }
     static apfev3::Regex NUMBER("\\d+\\s*");
@@ -107,7 +109,8 @@ int main(int argc, const char * argv[]) {
            &apfev3::token::Spacing::THE_ONE
        });
        static apfev3::Repetition TOKENS(TOKEN, apfev3::Repetition::eOneOrMore);
-       apfev3::TPTokens match = TOKENS.accept(consumer);
+       static apfev3::Sequence PRODUCTION({&TOKENS, &apfev3::token::EndOfFile::THE_ONE});
+       apfev3::TPTokens match = PRODUCTION.accept(consumer);
        INVARIANT(!match.isNull());
        INVARIANT(consumer.isEOF());
        
