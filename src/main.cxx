@@ -86,10 +86,34 @@ int main(int argc, const char * argv[]) {
         static apfev3::Repetition TOKENS(TOKEN, apfev3::Repetition::eOneOrMore);
         apfev3::TPTokens match = TOKENS.accept(consumer);
         INVARIANT(!match.isNull());
-        //INVARIANT(consumer.isEOF());
+        INVARIANT(consumer.isEOF());
         
         std::cout << "match=" << match << std::endl;
     }
+   if (true) {
+       const char* p =
+       "1234\n"
+       "// this is a line comment\n"
+       "//and this is one too\n"
+       "/*block\n"
+       "\n"
+       "//*/5678 \n"
+       "10123     ";
+       apfev3::CharBuf cbuf(p);
+       apfev3::Consumer consumer(cbuf);
+       static apfev3::Regex INTEGER("\\d+");
+       static apfev3::Alternatives TOKEN({
+           &INTEGER,
+           &apfev3::token::Spacing::THE_ONE
+       });
+       static apfev3::Repetition TOKENS(TOKEN, apfev3::Repetition::eOneOrMore);
+       apfev3::TPTokens match = TOKENS.accept(consumer);
+       INVARIANT(!match.isNull());
+       INVARIANT(consumer.isEOF());
+       
+       std::cout << "match=" << match << std::endl;
+   }
+    
     std::cout << "Hello world" << std::endl;
     return(0);
 }

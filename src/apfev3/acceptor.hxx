@@ -184,7 +184,8 @@ public:
     
     virtual TPToken _create(Consumer& consumer, const std::string& text) const;
 
-    virtual ~Ident();
+    virtual ~Ident()
+    {}
     
     static const Ident& THE_ONE;
 };
@@ -219,6 +220,38 @@ public:
     
     static const BlockComment& THE_ONE;
     
+protected:
+    virtual const TPTokens _accept(Consumer& consumer) const;
+};
+
+class WhiteSpace : public Regex {
+public:
+    // Use default pattern
+    explicit WhiteSpace();
+    
+    explicit WhiteSpace(const std::string& patt);
+    
+    //allow default copy constructors
+    
+    virtual ~WhiteSpace()
+    {}
+    
+    static const WhiteSpace& THE_ONE;
+};
+
+
+class Spacing : public _Acceptor {
+public:
+    // Use default pattern
+    explicit Spacing();
+    
+    //allow default copy constructors
+    
+    virtual ~Spacing()
+    {}
+    
+    static const Spacing& THE_ONE;
+
 protected:
     virtual const TPTokens _accept(Consumer& consumer) const;
 };
