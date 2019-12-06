@@ -81,6 +81,24 @@ __printAlternatives(std::ostream& os, const TPTokensList& eles) {
     return os;
 }
 
+const TPToken
+Tokens::asToken() const {
+    INVARIANT(type == eTerminal);
+    return __items.terminal;
+}
+
+const TPTokensList
+Tokens::asSequence() const {
+    INVARIANT(type == eSequence);
+    return __items.sequence;
+}
+
+const TPTokensList
+Tokens::asAlternatives() const {
+    INVARIANT(type == eAlternatives);
+    return __items.alternatives;
+}
+
 std::ostream&
 Tokens::operator<<(std::ostream& os) const {
     switch(type) {

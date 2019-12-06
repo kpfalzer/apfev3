@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include "apfev3/acceptor.hxx"
+#include "apfev3/reduce.hxx"
 
 int main(int argc, const char * argv[]) {
     {
@@ -29,6 +30,14 @@ int main(int argc, const char * argv[]) {
         apfev3::Consumer consumer(cbuf);
         apfev3::Regex rex("\\d+");
         apfev3::TPTokens match = rex.accept(consumer);
+        {
+            apfev3::TPTokenVectors min = apfev3::reduce(match);
+            size_t n = min->size();
+            INVARIANT(1 == n);
+            n = min->at(0)->size();
+            INVARIANT(1 == n);
+            std::cout << min->at(0);
+        }
         INVARIANT(!match.isNull());
         match = apfev3::token::EndOfFile::THE_ONE.accept(consumer);
         INVARIANT(match.isValid());
@@ -89,8 +98,15 @@ int main(int argc, const char * argv[]) {
         apfev3::TPTokens match = TOKENS.accept(consumer);
         INVARIANT(!match.isNull());
         INVARIANT(consumer.isEOF());
-        
         std::cout << "match=" << match << std::endl;
+        {
+            apfev3::TPTokenVectors min = apfev3::reduce(match);
+            size_t n = min->size();
+            INVARIANT(1 == n);
+            n = min->at(0)->size();
+            INVARIANT(6 == n);
+            std::cout << min->at(0);
+        }
     }
    if (true) {
        const char* p =
@@ -113,8 +129,16 @@ int main(int argc, const char * argv[]) {
        apfev3::TPTokens match = PRODUCTION.accept(consumer);
        INVARIANT(!match.isNull());
        INVARIANT(consumer.isEOF());
-       
        std::cout << "match=" << match << std::endl;
+       {
+           apfev3::TPTokenVectors min = apfev3::reduce(match);
+           size_t n = min->size();
+           //INVARIANT(1 == n);
+           n = min->at(0)->size();
+           //INVARIANT(6 == n);
+           std::cout << min->at(0);
+       }
+
    }
     
     std::cout << "Hello world" << std::endl;

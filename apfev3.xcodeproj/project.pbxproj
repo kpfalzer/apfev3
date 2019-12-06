@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F47D1204239878E900E62435 /* reduce.cxx in Sources */ = {isa = PBXBuildFile; fileRef = F47D1202239878E900E62435 /* reduce.cxx */; };
 		F4AE87392385EFA300E03523 /* charbuf.cxx in Sources */ = {isa = PBXBuildFile; fileRef = F4AE87372385EFA300E03523 /* charbuf.cxx */; };
 		F4AE873C2385FD1400E03523 /* consumer.cxx in Sources */ = {isa = PBXBuildFile; fileRef = F4AE873A2385FD1400E03523 /* consumer.cxx */; };
 		F4AE873F2386180800E03523 /* acceptor.cxx in Sources */ = {isa = PBXBuildFile; fileRef = F4AE873D2386180800E03523 /* acceptor.cxx */; };
@@ -27,6 +28,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		F47D1202239878E900E62435 /* reduce.cxx */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = reduce.cxx; sourceTree = "<group>"; };
+		F47D1203239878E900E62435 /* reduce.hxx */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = reduce.hxx; sourceTree = "<group>"; };
 		F4AE87372385EFA300E03523 /* charbuf.cxx */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = charbuf.cxx; sourceTree = "<group>"; };
 		F4AE87382385EFA300E03523 /* charbuf.hxx */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = charbuf.hxx; sourceTree = "<group>"; };
 		F4AE873A2385FD1400E03523 /* consumer.cxx */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = consumer.cxx; sourceTree = "<group>"; };
@@ -86,6 +89,8 @@
 				F4AE873B2385FD1400E03523 /* consumer.hxx */,
 				F4AE873D2386180800E03523 /* acceptor.cxx */,
 				F4AE873E2386180800E03523 /* acceptor.hxx */,
+				F47D1202239878E900E62435 /* reduce.cxx */,
+				F47D1203239878E900E62435 /* reduce.hxx */,
 			);
 			path = apfev3;
 			sourceTree = "<group>";
@@ -150,6 +155,7 @@
 				F4AE873F2386180800E03523 /* acceptor.cxx in Sources */,
 				F4AE87392385EFA300E03523 /* charbuf.cxx in Sources */,
 				F4AE873C2385FD1400E03523 /* consumer.cxx in Sources */,
+				F47D1204239878E900E62435 /* reduce.cxx in Sources */,
 				F4CB19BB2385E32800EF9C85 /* main.cxx in Sources */,
 				F4CB19D02385EA6800EF9C85 /* util.cxx in Sources */,
 			);

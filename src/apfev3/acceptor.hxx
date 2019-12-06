@@ -45,6 +45,12 @@ public:
     
     virtual std::ostream& operator<<(std::ostream& os) const;
     
+    const TPToken asToken() const;
+    
+    const TPTokensList asSequence() const;
+    
+    const TPTokensList asAlternatives() const;
+    
 private:
     //not allowed
     const Tokens& operator=(const Tokens&);

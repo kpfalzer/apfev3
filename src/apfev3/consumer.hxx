@@ -35,19 +35,36 @@ public:
     
     struct Location {
         explicit Location(const Consumer& here)
-        : filename(here.filename()),line(here.__line), col(here.__col), pos(here.__pos)
+        : filename(here.filename()),line(here.__line), col(here.__col)
         {}
         
-        explicit Location(const std::string& filename, size_t line, size_t col, size_t pos)
-        : filename(filename), line(line), col(col), pos(pos) {}
+        explicit Location(const std::string& filename, size_t line, size_t col)
+        : filename(filename), line(line), col(col) {}
         
         //allow default copy constructors and destructor
 
         const std::string& filename;
-        const size_t    line, col, pos;
+        const size_t    line, col;
         
         virtual std::ostream& operator<<(std::ostream& os) const;
         
+        bool operator==(const Location& other) const;
+        
+        bool operator<(const Location& other) const;
+        
+        bool operator>(const Location& other) const;
+        
+        bool operator!=(const Location& other) const {
+            return !this->operator==(other);
+        }
+        
+        bool operator<=(const Location& other) const {
+            return this->operator<(other) || this->operator==(other);
+        }
+        
+        bool operator>=(const Location& other) const {
+            return this->operator>(other) || this->operator==(other);
+        }
     };
     
     typedef SingleOwnerPtr<Location> TPLocation;

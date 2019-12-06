@@ -82,7 +82,7 @@ const Consumer::TPToken Consumer::accept(size_t n) {
 const Consumer::TPToken Consumer::accept(size_t n, size_t start, size_t end) {
     INVARIANT(n <= rem());
     INVARIANT(end >= start);
-    const size_t line = __line, col = __col,  pos = __pos;
+    const size_t line = __line, col = __col;
     const size_t nn = 1+end-start;
     INVARIANT(0 < nn);
     char buf[nn];
@@ -101,9 +101,28 @@ const Consumer::TPToken Consumer::accept(size_t n, size_t start, size_t end) {
     buf[nn] = '\0';
     __pos += n;
     std::string text(buf);
-    Location here(this->filename(), line, col, pos);
+    Location here(this->filename(), line, col);
     return new Token(text, here);
 }
+
+bool
+Consumer::Location::operator==(const Location& other) const {
+    INVARIANT(filename == other.filename);
+    return (line == other.line) && (col == other.col);
+}
+
+bool
+Consumer::Location::operator<(const Location& other) const {
+    INVARIANT(filename == other.filename);
+    return (line < other.line) || ((line == other.line) && (col < other.col));
+}
+
+bool
+Consumer::Location::operator>(const Location& other) const {
+    INVARIANT(filename == other.filename);
+    return (line > other.line) || ((line == other.line) && (col > other.col));
+}
+
 
 const Consumer::Mark&
 Consumer::Mark::operator=(const Mark& from) {
@@ -124,10 +143,7 @@ Consumer::operator<<(std::ostream& os) const {
 
 std::ostream&
 Consumer::Location::operator<<(std::ostream& os) const {
-    if (true)
-        os << '[' << pos << ']';
-    else
-        os << filename << ":" << line << ":" << col << '[' << pos << ']';
+    os << filename << ":" << line << ":" << col;
     return os;
 }
 
