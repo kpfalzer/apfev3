@@ -67,7 +67,7 @@ static TPTokenVectors trySequence(TPTokenVector soln, const TPTokensList& seq) {
     TPTokenVectors allSolns, solns;
     add(solns, soln);
     for (auto iter = seq->iterator(); iter.hasMore(); ) {
-        const TPTokens ele = iter.next();
+        const TPTokens& ele = iter.next();
         TPTokenVectors iterSolns;
         while (solns.isValid() && !solns->empty()) {
             soln = solns->back();
@@ -99,7 +99,7 @@ static TPTokenVectors tryAlternatives(TPTokenVector soln, const TPTokensList& al
     if (alts.isNull())
         return allSolns;
     for (auto iter = alts->iterator(); iter.hasMore(); ) {
-        const TPTokens ele = iter.next();
+        const TPTokens& ele = iter.next();
         //make sure to dup the soln as we split
         TPTokenVectors solns = reduce(new TokenVector(*soln), ele);
         add(allSolns, solns);

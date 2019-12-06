@@ -12,6 +12,8 @@
 
 namespace apfev3 {
 
+/*static*/ const std::string Consumer::Location::UNKNOWN = "<unintialized>";
+
 Consumer::Consumer(const CharBuf& buf)
 : __buf(buf),
 __pos(0),

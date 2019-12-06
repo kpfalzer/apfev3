@@ -41,6 +41,11 @@ public:
         explicit Location(const std::string& filename, size_t line, size_t col)
         : filename(filename), line(line), col(col) {}
         
+        static const std::string UNKNOWN;
+        
+        explicit Location()
+        : filename(UNKNOWN), line(0), col(0) {}
+        
         //allow default copy constructors and destructor
 
         const std::string& filename;
@@ -71,14 +76,14 @@ public:
     
     struct Token {
         explicit Token(const std::string& _text, const Location& _loc)
-        : text(_text), location(new Location(_loc))
+        : text(_text), location(_loc)
         {}
         
         explicit Token(const std::string& _text, const Consumer& here)
-        : text(_text), location(new Location(here))
+        : text(_text), location(here)
         {}
         
-        explicit Token() : location(nullptr){}
+        explicit Token() {}
         
         explicit Token(const Token& from)
         : text(from.text),
@@ -90,7 +95,7 @@ public:
         virtual std::ostream& operator<<(std::ostream& os) const;
 
         const std::string text;
-        const TPLocation location;
+        const Location location;
     };
     
     typedef SingleOwnerPtr<Token>  TPToken;
