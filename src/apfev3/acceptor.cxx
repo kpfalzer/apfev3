@@ -13,17 +13,17 @@ namespace apfev3 {
 
 Tokens::Tokens(const TPToken& ele)
 : type(eTerminal){
-    __items.terminal = ele;
+    __items.terminal.ref(ele);
 }
 
 Tokens::Tokens(const TPTokensList& from, EType type)
 :type(type) {
     switch(type)  {
         case eSequence:
-            __items.sequence = from;
+            __items.sequence.ref(from);
             break;
         case eAlternatives:
-            __items.alternatives = from;
+            __items.alternatives.ref(from);
             break;
         default:
             INVARIANT(false);
@@ -33,19 +33,20 @@ Tokens::Tokens(const TPTokensList& from, EType type)
 Tokens::Tokens(const TPTokens& from)
 : type(from->type){
     //todo: __items
+    INVARIANT(false);//where used?
 }
 
 // Valid only for eAlternatives.
 Tokens::Tokens(EType _type)
 : type(_type) {
     INVARIANT(eAlternatives == type);
-    __items.alternatives = nullptr;
+    __items.alternatives.ref(new TokensList());
 }
 
 void
 Tokens::addAlternative(const TPTokens& alt) {
     INVARIANT(eAlternatives == type);
-    if (nullptr == __items.alternatives) {
+    if (__items.alternatives.isNull()) {
         __items.alternatives = new TokensList();
     }
     __items.alternatives->append(alt);
@@ -54,13 +55,13 @@ Tokens::addAlternative(const TPTokens& alt) {
 Tokens::~Tokens(){
     switch(type) {
         case eAlternatives:
-            __items.alternatives.destroy();
+            //__items.alternatives.destroy();
             break;
         case eSequence:
-            __items.sequence.destroy();
+            //__items.sequence.destroy();
             break;
         case eTerminal:
-            __items.terminal.destroy();
+            //__items.terminal.destroy();
             break;
         default:
             ;
@@ -81,19 +82,19 @@ __printAlternatives(std::ostream& os, const TPTokensList& eles) {
     return os;
 }
 
-const TPToken
+TPToken
 Tokens::asToken() const {
     INVARIANT(type == eTerminal);
     return __items.terminal;
 }
 
-const TPTokensList
+TPTokensList
 Tokens::asSequence() const {
     INVARIANT(type == eSequence);
     return __items.sequence;
 }
 
-const TPTokensList
+TPTokensList
 Tokens::asAlternatives() const {
     INVARIANT(type == eAlternatives);
     return __items.alternatives;
@@ -106,10 +107,10 @@ Tokens::operator<<(std::ostream& os) const {
             __printAlternatives(os, __items.alternatives);
             break;
         case eSequence:
-            os << *(__items.sequence);
+            os << __items.sequence.asT();
             break;
         case eTerminal:
-            os << *(__items.terminal);
+            os << __items.terminal.asT();
             break;
         case eEmpty:
             break;
@@ -119,7 +120,7 @@ Tokens::operator<<(std::ostream& os) const {
     return os;
 }
 
-const TPTokens
+TPTokens
 _Acceptor::accept(Consumer& consumer) const {
     // Grab alternates before
     TPConsumerList alts = (consumer.hasAlts()) ? consumer.alts() : nullptr;
@@ -127,11 +128,11 @@ _Acceptor::accept(Consumer& consumer) const {
     if (alts.isValid()) {
         TPConsumerList alive;
         TPTokensList altTokens = new TokensList();
-        if (nullptr != tokens) altTokens->append(tokens);
+        if (tokens.isValid()) altTokens->append(tokens);
         for (auto iter = alts->iterator(); iter.hasMore();) {
             Consumer& xconsumer = iter.next();
             TPTokens alt = accept(xconsumer);
-            if (nullptr != alt) {
+            if (alt.isValid()) {
                 altTokens->append(alt);
                 if (consumer != xconsumer) {
                     append(alive, xconsumer);
@@ -146,14 +147,14 @@ _Acceptor::accept(Consumer& consumer) const {
     return tokens;
 }
 
-const TPTokens
+TPTokens
 _Acceptor::__accept(Consumer& consumer) const {
     return (!_checksForEOF() && consumer.isEOF()) ? nullptr : _accept(consumer);
 }
 
 _Acceptor::~_Acceptor() {}
 
-const TPTokens
+TPTokens
 Terminal::_accept(Consumer& consumer) const {
     const size_t n = __text.length();
     for (size_t i = 0; i < n; i++) {
@@ -167,7 +168,7 @@ Terminal::_accept(Consumer& consumer) const {
 Regex::Regex(const std::string& pattern)
 : _rex(pattern.c_str()) {}
  
-const TPTokens
+TPTokens
 Regex::_accept(Consumer& consumer) const {
     std::string s = "";
     size_t n = 0;
@@ -198,13 +199,13 @@ Regex::_skipTrailingWs(Consumer& consumer, const std::string& text) const {
     return consumer.accept(text.length(), 0, match[1].length()-1);
 }
 
-const TPTokens
+TPTokens
 Repetition::_accept(Consumer& consumer) const {
     TPTokens p;
     TokensList* tokens = nullptr;
     while (true) {
         p = __ele.accept(consumer);
-        if (nullptr == p) break;
+        if (p.isNull()) break;
         if (nullptr == tokens) {
             tokens = new TokensList();
         }
@@ -222,13 +223,13 @@ Repetition::_accept(Consumer& consumer) const {
     return (nullptr != tokens) ? new Tokens(tokens) : nullptr;
 }
 
-const TPTokens
+TPTokens
 Sequence::_accept(Consumer& consumer) const {
     TPTokens p;
     TokensList* tokens = nullptr;
     for (auto iter = __eles.iterator(); iter.hasMore(); ) {
         p = iter.next()->accept(consumer);
-        if (nullptr == p) return nullptr;
+        if (p.isNull()) return nullptr;
         if (nullptr == tokens) {
             tokens = new TokensList();
         }
@@ -241,7 +242,7 @@ Sequence::_accept(Consumer& consumer) const {
 Sequence::~Sequence()
 {}
 
-const TPTokens
+TPTokens
 Alternatives::_accept(Consumer& consumer) const {
     TPTokens p;
     Tokens* alts = nullptr;
@@ -250,7 +251,7 @@ Alternatives::_accept(Consumer& consumer) const {
     for (auto iter = __eles.iterator(); iter.hasMore(); ) {
         Consumer xconsumer(start);
         p = iter.next()->accept(xconsumer);
-        if (nullptr != p) {
+        if (p.isValid()) {
             if (nullptr == alts) {
                 alts = new Tokens(Tokens::eAlternatives);
             }
@@ -281,7 +282,7 @@ TPToken Ident::_create(Consumer& consumer, const std::string& text) const {
 
 /*static*/ const Ident& Ident::THE_ONE = Ident();
  
-const TPTokens
+TPTokens
 LineComment::_accept(Consumer& consumer) const {
     if (consumer[0] != '/' || consumer[1] != '/')
         return nullptr;
@@ -295,7 +296,7 @@ LineComment::_accept(Consumer& consumer) const {
 
 /*static*/ const LineComment& LineComment::THE_ONE = LineComment();
 
-const TPTokens
+TPTokens
 BlockComment::_accept(Consumer& consumer) const {
     if (consumer[0] != '/' || consumer[1] != '*')
         return nullptr;
@@ -322,14 +323,14 @@ static const Repetition __SPACING(__SPACING_ALTS, Repetition::eZeroOrMore);
 Spacing::Spacing()
 {}
 
-const TPTokens
+TPTokens
 Spacing::_accept(Consumer& consumer) const {
     return __SPACING.accept(consumer);
 }
 
 /*static*/ const Spacing& Spacing::THE_ONE = Spacing();
 
-const TPTokens
+TPTokens
 EndOfFile::_accept(Consumer& consumer) const {
     return (consumer.isEOF()) ? new Tokens(new Token("<EOF>", consumer)) : nullptr;
 }

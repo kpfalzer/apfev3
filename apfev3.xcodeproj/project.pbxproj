@@ -13,6 +13,7 @@
 		F4AE873F2386180800E03523 /* acceptor.cxx in Sources */ = {isa = PBXBuildFile; fileRef = F4AE873D2386180800E03523 /* acceptor.cxx */; };
 		F4CB19BB2385E32800EF9C85 /* main.cxx in Sources */ = {isa = PBXBuildFile; fileRef = F4CB19BA2385E32800EF9C85 /* main.cxx */; };
 		F4CB19D02385EA6800EF9C85 /* util.cxx in Sources */ = {isa = PBXBuildFile; fileRef = F4CB19CE2385EA6800EF9C85 /* util.cxx */; };
+		F4FE3288239B25EE00DD0034 /* exception.cxx in Sources */ = {isa = PBXBuildFile; fileRef = F4FE3285239B25EE00DD0034 /* exception.cxx */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -40,6 +41,9 @@
 		F4CB19BA2385E32800EF9C85 /* main.cxx */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cxx; sourceTree = "<group>"; };
 		F4CB19CE2385EA6800EF9C85 /* util.cxx */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = util.cxx; sourceTree = "<group>"; };
 		F4CB19CF2385EA6800EF9C85 /* util.hxx */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = util.hxx; sourceTree = "<group>"; };
+		F4FE3285239B25EE00DD0034 /* exception.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = exception.cxx; sourceTree = "<group>"; };
+		F4FE3286239B25EE00DD0034 /* exception.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = exception.hxx; sourceTree = "<group>"; };
+		F4FE3287239B25EE00DD0034 /* refcnt.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = refcnt.hxx; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +76,7 @@
 		F4CB19B92385E32800EF9C85 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				F4FE3284239B25BA00DD0034 /* xyzzy */,
 				F4CB19CD2385E9CF00EF9C85 /* apfev3 */,
 				F4CB19BA2385E32800EF9C85 /* main.cxx */,
 			);
@@ -93,6 +98,16 @@
 				F47D1203239878E900E62435 /* reduce.hxx */,
 			);
 			path = apfev3;
+			sourceTree = "<group>";
+		};
+		F4FE3284239B25BA00DD0034 /* xyzzy */ = {
+			isa = PBXGroup;
+			children = (
+				F4FE3285239B25EE00DD0034 /* exception.cxx */,
+				F4FE3286239B25EE00DD0034 /* exception.hxx */,
+				F4FE3287239B25EE00DD0034 /* refcnt.hxx */,
+			);
+			path = xyzzy;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -152,6 +167,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F4FE3288239B25EE00DD0034 /* exception.cxx in Sources */,
 				F4AE873F2386180800E03523 /* acceptor.cxx in Sources */,
 				F4AE87392385EFA300E03523 /* charbuf.cxx in Sources */,
 				F4AE873C2385FD1400E03523 /* consumer.cxx in Sources */,

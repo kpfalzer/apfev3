@@ -11,6 +11,7 @@
 
 #include <ostream>
 #include <cstdlib>
+#include "xyzzy/refcnt.hxx"
 #include "apfev3/charbuf.hxx"
 #include "apfev3/util.hxx"
 
@@ -34,7 +35,7 @@ public:
     friend struct Location;
     
     struct Location {
-        explicit Location(const Consumer& here)
+        Location(const Consumer& here)
         : filename(here.filename()),line(here.__line), col(here.__col)
         {}
         
@@ -72,8 +73,6 @@ public:
         }
     };
     
-    typedef SingleOwnerPtr<Location> TPLocation;
-    
     struct Token {
         explicit Token(const std::string& _text, const Location& _loc)
         : text(_text), location(_loc)
@@ -98,7 +97,7 @@ public:
         const Location location;
     };
     
-    typedef SingleOwnerPtr<Token>  TPToken;
+    typedef xyzzy::PTRcPtr<Token>  TPToken;
     
     struct Mark {
         explicit Mark(size_t _pos, size_t _line, size_t _col)
@@ -115,10 +114,10 @@ public:
     };
     
     // accept n chars
-    const TPToken accept(size_t n);
+    TPToken accept(size_t n);
     
     // accept n chars; but token is [start,end]
-    const TPToken accept(size_t n, size_t start, size_t end);
+    TPToken accept(size_t n, size_t start, size_t end);
     
     bool isEOF(size_t offset = 0) const {
         return (0 >= rem(offset));
@@ -136,8 +135,8 @@ public:
     
     void rewind(const Consumer& from);
     
-    TPLocation location() const {
-        return new Location(*this);
+    Location location() const {
+        return *this;
     }
     
     const std::string& filename() const {
@@ -147,7 +146,7 @@ public:
     virtual std::ostream& operator<<(std::ostream& os) const;
 
     typedef SList<Consumer> ConsumerList;
-    typedef SingleOwnerPtr<ConsumerList> TPConsumerList;
+    typedef xyzzy::PTRcPtr<ConsumerList> TPConsumerList;
     
     TPConsumerList& alts() {
         return __alts;

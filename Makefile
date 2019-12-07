@@ -1,6 +1,6 @@
 
 RDIR ?= ../..
-SRCS ?= src/apfev3/*.cxx src/main.cxx
+SRCS ?= src/apfev3/*.cxx src/xyzzy/*.cxx src/main.cxx
 INCL ?= src
 OS   ?= $(shell uname -s)
 

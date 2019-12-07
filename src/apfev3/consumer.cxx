@@ -54,8 +54,7 @@ TPConsumerList& Consumer::addAlt(const Consumer& consumer) {
 
 void Consumer::replaceAlts(TPConsumerList& from) {
     if (from.isNull() || from->isEmpty()) {
-        from.destroy();
-        __alts.destroy();
+        __alts = nullptr;
     } else {
         __alts = from;
     }
@@ -77,11 +76,11 @@ void Consumer::rewind(const Consumer& from) {
     __col = from.__col;
 }
 
-const Consumer::TPToken Consumer::accept(size_t n) {
+Consumer::TPToken Consumer::accept(size_t n) {
     return accept(n,0,n-1);
 }
 
-const Consumer::TPToken Consumer::accept(size_t n, size_t start, size_t end) {
+Consumer::TPToken Consumer::accept(size_t n, size_t start, size_t end) {
     INVARIANT(n <= rem());
     INVARIANT(end >= start);
     const size_t line = __line, col = __col;

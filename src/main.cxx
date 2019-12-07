@@ -31,14 +31,10 @@ int main(int argc, const char * argv[]) {
         apfev3::Regex rex("\\d+");
         apfev3::TPTokens match = rex.accept(consumer);
         {
-            apfev3::TPTokenVectors min = apfev3::reduce(match);
-            size_t n = min->size();
-            INVARIANT(1 == n);
-            n = min->at(0)->size();
-            INVARIANT(1 == n);
-            std::cout << min->at(0);
+            apfev3::TPTokenVector min = apfev3::reduce(match);
+            std::cout << *min;
         }
-        INVARIANT(!match.isNull());
+        INVARIANT(match.isValid());
         match = apfev3::token::EndOfFile::THE_ONE.accept(consumer);
         INVARIANT(match.isValid());
         INVARIANT(consumer.isEOF());
@@ -52,7 +48,7 @@ int main(int argc, const char * argv[]) {
         apfev3::CharBuf cbuf(p);
         apfev3::Consumer consumer(cbuf);
         apfev3::TPTokens match = IDENT.accept(consumer);
-        INVARIANT(!match.isNull());
+        INVARIANT(match.isValid());
         INVARIANT(consumer.isEOF());
     }
     if (true) {
@@ -62,7 +58,7 @@ int main(int argc, const char * argv[]) {
         
         static apfev3::Alternatives TOKEN({&NUMBER,&IDENT});
         apfev3::TPTokens match = TOKEN.accept(consumer);
-        INVARIANT(!match.isNull());
+        INVARIANT(match.isValid());
         //INVARIANT(consumer.isEOF());
     }
     if (true) {
@@ -73,10 +69,10 @@ int main(int argc, const char * argv[]) {
         static apfev3::Alternatives TOKEN({&NUMBER,&apfev3::token::Ident::THE_ONE});
         static apfev3::Repetition TOKENS(TOKEN, apfev3::Repetition::eOneOrMore);
         apfev3::TPTokens match = TOKENS.accept(consumer);
-        INVARIANT(!match.isNull());
+        INVARIANT(match.isValid());
         INVARIANT(consumer.isEOF());
         
-        std::cout << "match=" << match << std::endl;
+        std::cout << "match=" << *match << std::endl;
     }
     if (true) {
         const char* p =
@@ -96,16 +92,12 @@ int main(int argc, const char * argv[]) {
         });
         static apfev3::Repetition TOKENS(TOKEN, apfev3::Repetition::eOneOrMore);
         apfev3::TPTokens match = TOKENS.accept(consumer);
-        INVARIANT(!match.isNull());
+        INVARIANT(match.isValid());
         INVARIANT(consumer.isEOF());
-        std::cout << "match=" << match << std::endl;
+        std::cout << "match=" << *match << std::endl;
         {
-            apfev3::TPTokenVectors min = apfev3::reduce(match);
-            size_t n = min->size();
-            INVARIANT(1 == n);
-            n = min->at(0)->size();
-            INVARIANT(6 == n);
-            std::cout << min->at(0);
+            apfev3::TPTokenVector min = apfev3::reduce(match);
+            std::cout << *min;
         }
     }
    if (true) {
@@ -127,16 +119,12 @@ int main(int argc, const char * argv[]) {
        static apfev3::Repetition TOKENS(TOKEN, apfev3::Repetition::eOneOrMore);
        static apfev3::Sequence PRODUCTION({&TOKENS, &apfev3::token::EndOfFile::THE_ONE});
        apfev3::TPTokens match = PRODUCTION.accept(consumer);
-       INVARIANT(!match.isNull());
+       INVARIANT(match.isValid());
        INVARIANT(consumer.isEOF());
-       std::cout << "match=" << match << std::endl;
+       std::cout << "match=" << *match << std::endl;
        {
-           apfev3::TPTokenVectors min = apfev3::reduce(match);
-           size_t n = min->size();
-           //INVARIANT(1 == n);
-           n = min->at(0)->size();
-           //INVARIANT(6 == n);
-           std::cout << min->at(0);
+           apfev3::TPTokenVector min = apfev3::reduce(match);
+           std::cout << *min;
        }
 
    }

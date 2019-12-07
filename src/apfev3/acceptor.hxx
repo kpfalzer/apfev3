@@ -14,12 +14,12 @@
 
 namespace apfev3 {
 typedef Consumer::Token Token;
-typedef SingleOwnerPtr<Token> TPToken;
+typedef xyzzy::PTRcPtr<Token> TPToken;
 class Tokens;
-typedef SingleOwnerPtr<Tokens> TPTokens;
+typedef xyzzy::PTRcPtr<Tokens> TPTokens;
 
 typedef SList<const TPTokens> TokensList;
-typedef SingleOwnerPtr<TokensList>   TPTokensList;
+typedef xyzzy::PTRcPtr<TokensList>   TPTokensList;
 
 class Tokens {
 public:
@@ -45,11 +45,11 @@ public:
     
     virtual std::ostream& operator<<(std::ostream& os) const;
     
-    const TPToken asToken() const;
+    TPToken asToken() const;
     
-    const TPTokensList asSequence() const;
+    TPTokensList asSequence() const;
     
-    const TPTokensList asAlternatives() const;
+    TPTokensList asAlternatives() const;
     
 private:
     //not allowed
@@ -77,10 +77,10 @@ public:
     
     //allow default copy constructors
     
-    virtual const TPTokens accept(Consumer& consumer) const;
+    virtual TPTokens accept(Consumer& consumer) const;
 
 protected:
-    virtual const TPTokens _accept(Consumer& consumer) const = 0;
+    virtual TPTokens _accept(Consumer& consumer) const = 0;
     
     // Subclass which checks for EOF should return false.
     virtual bool _checksForEOF() const {
@@ -88,7 +88,7 @@ protected:
     }
     
 private:
-    const TPTokens __accept(Consumer& consumer) const;
+    TPTokens __accept(Consumer& consumer) const;
 };
 
 class Terminal : public _Acceptor {
@@ -102,7 +102,7 @@ public:
     virtual ~Terminal(){}
     
 protected:
-    virtual const TPTokens _accept(Consumer& consumer) const;
+    virtual TPTokens _accept(Consumer& consumer) const;
     
 private:
     const std::string&  __text;
@@ -117,7 +117,7 @@ public:
     virtual ~Regex(){}
 
 protected:
-    virtual const TPTokens _accept(Consumer& consumer) const;
+    virtual TPTokens _accept(Consumer& consumer) const;
     
     virtual TPToken _skipTrailingWs(Consumer& consumer, const std::string& text) const;
      
@@ -137,7 +137,7 @@ public:
     //allow default copy constructors
     
 protected:
-    virtual const TPTokens _accept(Consumer& consumer) const;
+    virtual TPTokens _accept(Consumer& consumer) const;
     
 private:
     const _Acceptor& __ele;
@@ -157,7 +157,7 @@ public:
     virtual ~Sequence();
 
 protected:
-    virtual const TPTokens _accept(Consumer& consumer) const;
+    virtual TPTokens _accept(Consumer& consumer) const;
 
 private:
     const AcceptorList __eles;
@@ -175,7 +175,7 @@ public:
     virtual ~Alternatives();
     
 protected:
-    virtual const TPTokens _accept(Consumer& consumer) const;
+    virtual TPTokens _accept(Consumer& consumer) const;
     
 private:
     const AcceptorList __eles;
@@ -215,7 +215,7 @@ public:
     static const LineComment& THE_ONE;
     
 protected:
-    virtual const TPTokens _accept(Consumer& consumer) const;
+    virtual TPTokens _accept(Consumer& consumer) const;
 };
 
 class BlockComment : public _Acceptor {
@@ -232,7 +232,7 @@ public:
     static const BlockComment& THE_ONE;
     
 protected:
-    virtual const TPTokens _accept(Consumer& consumer) const;
+    virtual TPTokens _accept(Consumer& consumer) const;
 };
 
 class WhiteSpace : public Regex {
@@ -264,7 +264,7 @@ public:
     static const Spacing& THE_ONE;
 
 protected:
-    virtual const TPTokens _accept(Consumer& consumer) const;
+    virtual TPTokens _accept(Consumer& consumer) const;
 };
 
 class EndOfFile : public _Acceptor {
@@ -281,7 +281,7 @@ public:
     static const EndOfFile& THE_ONE;
 
 protected:
-    virtual const TPTokens _accept(Consumer& consumer) const;
+    virtual TPTokens _accept(Consumer& consumer) const;
     
     virtual bool _checksForEOF() const {
         return true;

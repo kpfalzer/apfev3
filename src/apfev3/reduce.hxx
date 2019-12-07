@@ -15,11 +15,11 @@
 namespace apfev3 {
 
 typedef std::vector<const TPToken>      TokenVector;
-typedef SingleOwnerPtr<TokenVector>     TPTokenVector;
+typedef xyzzy::PTRcPtr<TokenVector>     TPTokenVector;
 typedef std::vector<TPTokenVector>      TokenVectors;
-typedef SingleOwnerPtr<TokenVectors>    TPTokenVectors;
+typedef xyzzy::PTRcPtr<TokenVectors>    TPTokenVectors;
 
-TPTokenVectors reduce(const TPTokens& start);
+TPTokenVector reduce(const TPTokens& start);
 
 std::ostream& operator<<(std::ostream& os, const TokenVector&);
 
