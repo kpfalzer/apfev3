@@ -74,7 +74,7 @@ namespace xyzzy {
         static const char* const stNoReason;
     };
 
-    void invariant(bool cond) throw (TException);
+    void invariant(bool cond); 
 
     /// Null pointer exception class.
 

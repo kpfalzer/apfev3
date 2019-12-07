@@ -14,7 +14,7 @@
 
 namespace apfev3 {
 
-typedef std::vector<const TPToken>      TokenVector;
+typedef std::vector<TPToken>      TokenVector;
 typedef xyzzy::PTRcPtr<TokenVector>     TPTokenVector;
 typedef std::vector<TPTokenVector>      TokenVectors;
 typedef xyzzy::PTRcPtr<TokenVectors>    TPTokenVectors;

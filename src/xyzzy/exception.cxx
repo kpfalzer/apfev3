@@ -26,7 +26,7 @@
 
 namespace xyzzy
 {
-	void invariant(bool cond) throw(TException)
+	void invariant(bool cond) 
 	{
 		if (false == cond)
 		{
