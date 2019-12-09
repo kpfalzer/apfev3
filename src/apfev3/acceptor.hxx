@@ -9,6 +9,7 @@
 #ifndef apfev3_acceptor_hxx
 #define apfev3_acceptor_hxx
 
+#include <vector>
 #include <regex>
 #include "apfev3/consumer.hxx"
 
@@ -17,9 +18,10 @@ typedef Consumer::Token Token;
 typedef xyzzy::PTRcPtr<Token> TPToken;
 class Tokens;
 typedef xyzzy::PTRcPtr<Tokens> TPTokens;
-
 typedef SList<const TPTokens> TokensList;
 typedef xyzzy::PTRcPtr<TokensList>   TPTokensList;
+typedef std::vector<TPToken>            TokenVector;
+typedef xyzzy::PTRcPtr<TokenVector>     TPTokenVector;
 
 class Tokens {
 public:
@@ -33,8 +35,6 @@ public:
     explicit Tokens(const TPToken& ele);
     
     explicit Tokens(const TPTokensList& from, EType type = eSequence);
-    
-    explicit Tokens(const TPTokens& from);
     
     // Valid only for eAlternatives.
     explicit Tokens(EType type);
@@ -51,10 +51,13 @@ public:
     
     TPTokensList asAlternatives() const;
     
+    TPTokenVector reduce() const;
+    
 private:
     //not allowed
     const Tokens& operator=(const Tokens&);
     
+    //allowed for reduce
     Tokens(const Tokens&);
     
     union U {

@@ -72,7 +72,7 @@ int main(int argc, const char * argv[]) {
         INVARIANT(match.isValid());
         INVARIANT(consumer.isEOF());
         
-        std::cout << "match=" << *match << std::endl;
+        std::cout << "match=" << match->reduce() << std::endl;
     }
     if (true) {
         const char* p =
@@ -96,7 +96,7 @@ int main(int argc, const char * argv[]) {
         INVARIANT(consumer.isEOF());
         std::cout << "match=" << *match << std::endl;
         {
-            apfev3::TPTokenVector min = apfev3::reduce(match);
+            apfev3::TPTokenVector min = match->reduce();
             std::cout << *min;
         }
     }
@@ -123,7 +123,7 @@ int main(int argc, const char * argv[]) {
        INVARIANT(consumer.isEOF());
        std::cout << "match=" << *match << std::endl;
        {
-           apfev3::TPTokenVector min = apfev3::reduce(match);
+           apfev3::TPTokenVector min = match->reduce();
            std::cout << *min;
        }
 

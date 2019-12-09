@@ -8,6 +8,7 @@
 
 #include "apfev3/util.hxx"
 #include "apfev3/acceptor.hxx"
+#include "apfev3/reduce.hxx"
 
 namespace apfev3 {
 
@@ -30,18 +31,30 @@ Tokens::Tokens(const TPTokensList& from, EType type)
     }
 }
 
-Tokens::Tokens(const TPTokens& from)
-: type(from->type){
-    //todo: __items
-    INVARIANT(false);//where used?
-}
-
 // Valid only for eAlternatives.
 Tokens::Tokens(EType _type)
 : type(_type) {
     INVARIANT(eAlternatives == type);
     __items.alternatives.ref(new TokensList());
 }
+
+Tokens::Tokens(const Tokens& from)
+: type(from.type) {
+    switch(type)  {
+        case eSequence:
+            __items.sequence.ref(from.asSequence());
+            break;
+        case eAlternatives:
+            __items.alternatives.ref(from.asAlternatives());
+            break;
+        case eTerminal:
+            __items.terminal.ref(from.asToken());
+            break;
+        default:
+            INVARIANT(false);
+    }
+}
+
 
 void
 Tokens::addAlternative(const TPTokens& alt) {
@@ -118,6 +131,12 @@ Tokens::operator<<(std::ostream& os) const {
             INVARIANT(false);
     }
     return os;
+}
+
+TPTokenVector
+Tokens::reduce() const {
+    TPTokens start = new Tokens(*this);
+    return ::apfev3::reduce(start);
 }
 
 TPTokens

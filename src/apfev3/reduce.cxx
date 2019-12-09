@@ -109,19 +109,15 @@ static TPTokenVectors __reduce(const TPTokens& start) {
 TPTokenVector reduce(const TPTokens& start) {
     TPTokenVectors all = __reduce(start);
     //keep longest
-    size_t longest = 0;
-    TPTokenVectors best = new TokenVectors();
+    TPTokenVector longest = new TokenVector();
     for (auto iter = all->cbegin(); iter != all->cend(); ++iter) {
         auto ele = *iter;
         const size_t length = ele->size();
-        if (length < longest)
+        if (length <= longest->size())
             continue;
-        if (length > longest)
-            best = new TokenVectors();
-        best->push_back(ele);
-        longest = length;
+        longest = ele;
     }
-    return best->at(0);
+    return longest;
 }
 
 std::ostream&
