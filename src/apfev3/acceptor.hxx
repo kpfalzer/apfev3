@@ -11,17 +11,12 @@
 
 #include <vector>
 #include <regex>
+#include "apfev3/_types.hxx"
+#include "apfev3/util.hxx"
 #include "apfev3/consumer.hxx"
 
+
 namespace apfev3 {
-typedef Consumer::Token Token;
-typedef xyzzy::PTRcPtr<Token> TPToken;
-class Tokens;
-typedef xyzzy::PTRcPtr<Tokens> TPTokens;
-typedef SList<const TPTokens> TokensList;
-typedef xyzzy::PTRcPtr<TokensList>   TPTokensList;
-typedef std::vector<TPToken>            TokenVector;
-typedef xyzzy::PTRcPtr<TokenVector>     TPTokenVector;
 
 class Tokens {
 public:

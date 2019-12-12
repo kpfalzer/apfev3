@@ -43,7 +43,7 @@ static TPTokenVector __tryToken(TPTokenVector soln, const TPToken& terminal) {
         if (last.isNull() || (terminal->location <= last->location))
             return nullptr;
     }
-    soln->push_back(new Consumer::Token(terminal.asT()));
+    soln->push_back(new Token(terminal.asT()));
     return soln;
 }
 

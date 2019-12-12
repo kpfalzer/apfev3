@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5C94D3D923A2B839005C6EF0 /* node.cxx in Sources */ = {isa = PBXBuildFile; fileRef = 5C94D3D723A2B839005C6EF0 /* node.cxx */; };
+		5C94D3DB23A2BAE5005C6EF0 /* _types.hxx in Sources */ = {isa = PBXBuildFile; fileRef = 5C94D3DA23A2BAE5005C6EF0 /* _types.hxx */; };
 		F47D1204239878E900E62435 /* reduce.cxx in Sources */ = {isa = PBXBuildFile; fileRef = F47D1202239878E900E62435 /* reduce.cxx */; };
 		F4AE87392385EFA300E03523 /* charbuf.cxx in Sources */ = {isa = PBXBuildFile; fileRef = F4AE87372385EFA300E03523 /* charbuf.cxx */; };
 		F4AE873C2385FD1400E03523 /* consumer.cxx in Sources */ = {isa = PBXBuildFile; fileRef = F4AE873A2385FD1400E03523 /* consumer.cxx */; };
@@ -29,6 +31,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5C94D3D723A2B839005C6EF0 /* node.cxx */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = node.cxx; sourceTree = "<group>"; };
+		5C94D3D823A2B839005C6EF0 /* node.hxx */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = node.hxx; sourceTree = "<group>"; };
+		5C94D3DA23A2BAE5005C6EF0 /* _types.hxx */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = _types.hxx; sourceTree = "<group>"; };
 		F47D1202239878E900E62435 /* reduce.cxx */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = reduce.cxx; sourceTree = "<group>"; };
 		F47D1203239878E900E62435 /* reduce.hxx */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = reduce.hxx; sourceTree = "<group>"; };
 		F4AE87372385EFA300E03523 /* charbuf.cxx */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = charbuf.cxx; sourceTree = "<group>"; };
@@ -76,8 +81,8 @@
 		F4CB19B92385E32800EF9C85 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				F4FE3284239B25BA00DD0034 /* xyzzy */,
 				F4CB19CD2385E9CF00EF9C85 /* apfev3 */,
+				F4FE3284239B25BA00DD0034 /* xyzzy */,
 				F4CB19BA2385E32800EF9C85 /* main.cxx */,
 			);
 			path = src;
@@ -96,6 +101,9 @@
 				F4AE873E2386180800E03523 /* acceptor.hxx */,
 				F47D1202239878E900E62435 /* reduce.cxx */,
 				F47D1203239878E900E62435 /* reduce.hxx */,
+				5C94D3D723A2B839005C6EF0 /* node.cxx */,
+				5C94D3D823A2B839005C6EF0 /* node.hxx */,
+				5C94D3DA23A2BAE5005C6EF0 /* _types.hxx */,
 			);
 			path = apfev3;
 			sourceTree = "<group>";
@@ -173,7 +181,9 @@
 				F4AE873C2385FD1400E03523 /* consumer.cxx in Sources */,
 				F47D1204239878E900E62435 /* reduce.cxx in Sources */,
 				F4CB19BB2385E32800EF9C85 /* main.cxx in Sources */,
+				5C94D3DB23A2BAE5005C6EF0 /* _types.hxx in Sources */,
 				F4CB19D02385EA6800EF9C85 /* util.cxx in Sources */,
+				5C94D3D923A2B839005C6EF0 /* node.cxx in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

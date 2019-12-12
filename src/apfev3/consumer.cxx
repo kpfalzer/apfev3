@@ -12,7 +12,7 @@
 
 namespace apfev3 {
 
-/*static*/ const std::string Consumer::Location::UNKNOWN = "<unintialized>";
+/*static*/ const std::string Location::UNKNOWN = "<unintialized>";
 
 Consumer::Consumer(const CharBuf& buf)
 : __buf(buf),
@@ -76,11 +76,19 @@ void Consumer::rewind(const Consumer& from) {
     __col = from.__col;
 }
 
-Consumer::TPToken Consumer::accept(size_t n) {
+Mark Consumer::mark() const {
+    return Mark(__pos, __line, __col);
+}
+
+Location Consumer::location() const {
+    return *this;
+}
+
+TPToken Consumer::accept(size_t n) {
     return accept(n,0,n-1);
 }
 
-Consumer::TPToken Consumer::accept(size_t n, size_t start, size_t end) {
+TPToken Consumer::accept(size_t n, size_t start, size_t end) {
     INVARIANT(n <= rem());
     INVARIANT(end >= start);
     const size_t line = __line, col = __col;
@@ -107,33 +115,33 @@ Consumer::TPToken Consumer::accept(size_t n, size_t start, size_t end) {
 }
 
 bool
-Consumer::Location::operator==(const Location& other) const {
+Location::operator==(const Location& other) const {
     INVARIANT(filename == other.filename);
     return (line == other.line) && (col == other.col);
 }
 
 bool
-Consumer::Location::operator<(const Location& other) const {
+Location::operator<(const Location& other) const {
     INVARIANT(filename == other.filename);
     return (line < other.line) || ((line == other.line) && (col < other.col));
 }
 
 bool
-Consumer::Location::operator>(const Location& other) const {
+Location::operator>(const Location& other) const {
     INVARIANT(filename == other.filename);
     return (line > other.line) || ((line == other.line) && (col > other.col));
 }
 
 
-const Consumer::Mark&
-Consumer::Mark::operator=(const Mark& from) {
+const Mark&
+Mark::operator=(const Mark& from) {
     const_cast<size_t&>(pos)  = from.pos;
     const_cast<size_t&>(line)  = from.line;
     const_cast<size_t&>(col)  = from.col;
     return *this;
 }
 
-Consumer::Token::~Token() {
+Token::~Token() {
 }
  
 std::ostream&
@@ -143,13 +151,13 @@ Consumer::operator<<(std::ostream& os) const {
 }
 
 std::ostream&
-Consumer::Location::operator<<(std::ostream& os) const {
+Location::operator<<(std::ostream& os) const {
     os << filename << ":" << line << ":" << col;
     return os;
 }
 
 std::ostream&
-Consumer::Token::operator<<(std::ostream& os) const {
+Token::operator<<(std::ostream& os) const {
     std::string s = text;
     replaceAll(replaceAll(s, "\"", "\\\""), "\n", "\\n");
     os << location << ":" << '"' << s << '"';
