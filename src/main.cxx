@@ -126,8 +126,12 @@ int main(int argc, const char * argv[]) {
            apfev3::TPTokenVector min = match->reduce();
            std::cout << *min;
        }
+       {
+           apfev3::TPNode node = PRODUCTION.toNode(match);
+           auto debug = true;
+       }
 
-   }
+    }
     
     std::cout << "Hello world" << std::endl;
     return(0);

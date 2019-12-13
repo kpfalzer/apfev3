@@ -139,6 +139,16 @@ Tokens::reduce() const {
     return ::apfev3::reduce(start);
 }
 
+TokenVectorNode::TokenVectorNode(const TPTokens& tokens) {
+    const TPTokenVector toks = tokens->reduce();
+    for (auto iter = toks->cbegin(); iter != toks->cend(); ++iter) {
+        push_back(*iter);
+    }
+}
+    
+TokenVectorNode::~TokenVectorNode() {
+};
+
 TPTokens
 _Acceptor::accept(Consumer& consumer) const {
     // Grab alternates before
@@ -171,18 +181,13 @@ _Acceptor::__accept(Consumer& consumer) const {
     return (!_checksForEOF() && consumer.isEOF()) ? nullptr : _accept(consumer);
 }
 
-_Acceptor::~_Acceptor() {}
-
-TPTokens
-Terminal::_accept(Consumer& consumer) const {
-    const size_t n = __text.length();
-    for (size_t i = 0; i < n; i++) {
-        if (__text[i] != consumer[i]) {
-            return nullptr;
-        }
-    }
-    return new Tokens(consumer.accept(n));
+TPNode
+_Acceptor::toNode(const TPTokens& tokens) const {
+    TPTokenVectorNode node(new TokenVectorNode(tokens));
+    return xyzzy::upcast<_Node>(node);
 }
+
+_Acceptor::~_Acceptor() {}
 
 Regex::Regex(const std::string& pattern)
 : _rex(pattern.c_str()) {}

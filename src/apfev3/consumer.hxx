@@ -14,6 +14,7 @@
 #include "xyzzy/refcnt.hxx"
 #include "apfev3/charbuf.hxx"
 #include "apfev3/util.hxx"
+#include "apfev3/node.hxx"
 
 namespace apfev3 {
 
@@ -21,7 +22,7 @@ class Token;
 class Location;
 class Mark;
 
-typedef xyzzy::PTRcPtr<Token>  TPToken;
+typedef xyzzy::PTRcObjPtr<Token>  TPToken;
 
 class Consumer {
 public:
@@ -98,69 +99,25 @@ private:
     size_t __line, __col;
 };
 
-class Location {
-public:
-    Location(const Consumer& here)
-    : filename(here.filename()),line(here.__line), col(here.__col)
-    {}
-    
-    explicit Location(const std::string& filename, size_t line, size_t col)
-    : filename(filename), line(line), col(col) {}
-    
-    static const std::string UNKNOWN;
-    
-    explicit Location()
-    : filename(UNKNOWN), line(0), col(0) {}
-    
-    //allow default copy constructors and destructor
-
-    const std::string& filename;
-    const size_t    line, col;
-    
-    virtual std::ostream& operator<<(std::ostream& os) const;
-    
-    bool operator==(const Location& other) const;
-    
-    bool operator<(const Location& other) const;
-    
-    bool operator>(const Location& other) const;
-    
-    bool operator!=(const Location& other) const {
-        return !this->operator==(other);
-    }
-    
-    bool operator<=(const Location& other) const {
-        return this->operator<(other) || this->operator==(other);
-    }
-    
-    bool operator>=(const Location& other) const {
-        return this->operator>(other) || this->operator==(other);
-    }
-};
-    
-class Token {
+class Token : public virtual _Terminal {
 public:
     explicit Token(const std::string& _text, const Location& _loc)
-    : text(_text), location(_loc)
+    : _Terminal(_text, _loc)
     {}
     
     explicit Token(const std::string& _text, const Consumer& here)
-    : text(_text), location(here)
+    : _Terminal(_text, here.location())
     {}
     
     explicit Token() {}
     
     explicit Token(const Token& from)
-    : text(from.text),
-    location(from.location)
+    : _Terminal(from.text, from.location)
     {}
     
     virtual ~Token();
     
     virtual std::ostream& operator<<(std::ostream& os) const;
-
-    const std::string text;
-    const Location location;
 };
 
 class Mark {
@@ -183,11 +140,6 @@ typedef Consumer::TPConsumerList    TPConsumerList;
 
 // Append consumer to list if not exist
 void append(TPConsumerList& list, const Consumer& consumer);
-
-inline
-std::ostream& operator<<(std::ostream& os, const Location& ele) {
-    return ele.operator<<(os);
-}
 
 inline
 std::ostream& operator<<(std::ostream& os, const Token& ele) {

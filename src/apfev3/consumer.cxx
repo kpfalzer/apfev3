@@ -8,11 +8,10 @@
 
 #include <algorithm>
 #include "apfev3/util.hxx"
+#include "apfev3/location.hxx"
 #include "apfev3/consumer.hxx"
 
 namespace apfev3 {
-
-/*static*/ const std::string Location::UNKNOWN = "<unintialized>";
 
 Consumer::Consumer(const CharBuf& buf)
 : __buf(buf),
@@ -81,7 +80,7 @@ Mark Consumer::mark() const {
 }
 
 Location Consumer::location() const {
-    return *this;
+    return Location(this->filename(), this->__line, this->__col);
 }
 
 TPToken Consumer::accept(size_t n) {
@@ -114,25 +113,6 @@ TPToken Consumer::accept(size_t n, size_t start, size_t end) {
     return new Token(text, here);
 }
 
-bool
-Location::operator==(const Location& other) const {
-    INVARIANT(filename == other.filename);
-    return (line == other.line) && (col == other.col);
-}
-
-bool
-Location::operator<(const Location& other) const {
-    INVARIANT(filename == other.filename);
-    return (line < other.line) || ((line == other.line) && (col < other.col));
-}
-
-bool
-Location::operator>(const Location& other) const {
-    INVARIANT(filename == other.filename);
-    return (line > other.line) || ((line == other.line) && (col > other.col));
-}
-
-
 const Mark&
 Mark::operator=(const Mark& from) {
     const_cast<size_t&>(pos)  = from.pos;
@@ -147,12 +127,6 @@ Token::~Token() {
 std::ostream&
 Consumer::operator<<(std::ostream& os) const {
     os << filename() << ":" << __line << ":" << __col << '[' << __pos << ']';
-    return os;
-}
-
-std::ostream&
-Location::operator<<(std::ostream& os) const {
-    os << filename << ":" << line << ":" << col;
     return os;
 }
 

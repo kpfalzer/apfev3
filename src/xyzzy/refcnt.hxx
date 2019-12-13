@@ -81,7 +81,10 @@ namespace xyzzy {
 
         PTRcObjPtr(const PTRcObjPtr &r);
 
-        explicit PTRcObjPtr(_TRcPtr *p);
+        //In case of union, where we cannot use =
+        const PTRcObjPtr& ref(const PTRcObjPtr &r);
+
+        const PTRcObjPtr& ref(T *p);
 
         const PTRcObjPtr& operator=(const PTRcObjPtr &r);
 
@@ -125,20 +128,15 @@ namespace xyzzy {
 
         ~PTRcObjPtr();
 
+        //TODO: really should be private and allow friend upcast/downcast
+        explicit PTRcObjPtr(_TRcPtr *p);
+
     private:
         void decr();
 
         _TRcPtr *m_p;
 
         friend _TRcPtr* getBasePtr<T>(const PTRcObjPtr<T> &r);
-
-#if defined(DEBUG)
-        const T *pDBG_t;
-
-#define SET_T pDBG_t = dynamic_cast<const T*>(m_p->mp_dat)
-#else
-#define SET_T
-#endif
     };
 
     template<class T>
@@ -265,27 +263,39 @@ namespace xyzzy {
     template<class T>
     PTRcObjPtr<T>::PTRcObjPtr() {
         m_p = new _TRcPtr();
-        SET_T;
     }
 
     template<class T>
     PTRcObjPtr<T>::PTRcObjPtr(T *p) {
         m_p = new _TRcPtr(p);
-        SET_T;
     }
 
     template<class T>
     PTRcObjPtr<T>::PTRcObjPtr(const PTRcObjPtr &r) {
         m_p = r.m_p;
         m_p->m_cnt++;
-        SET_T;
+    }
+
+    //In case of union, where we cannot use =
+    template<class T>
+    const PTRcObjPtr<T>&
+    PTRcObjPtr<T>::ref(const PTRcObjPtr &r) {
+        m_p = r.m_p;
+        m_p->m_cnt++;
+        return *this;
+    }
+
+    template<class T>
+    const PTRcObjPtr<T>&
+    PTRcObjPtr<T>::ref(T *p) {
+        m_p = new _TRcPtr(p);
+        return *this;
     }
 
     template<class T>
     PTRcObjPtr<T>::PTRcObjPtr(_TRcPtr *p) {
         m_p = p;
         m_p->m_cnt++;
-        SET_T;
     }
 
     template<class T>
@@ -295,7 +305,6 @@ namespace xyzzy {
             decr();
             m_p = r.m_p;
             m_p->m_cnt++;
-            SET_T;
         }
         return *this;
     }
@@ -305,7 +314,6 @@ namespace xyzzy {
     PTRcObjPtr<T>::operator=(T *p) {
         decr();
         m_p = new _TRcPtr(p);
-        SET_T;
         return *this;
     }
 
@@ -449,6 +457,5 @@ namespace xyzzy {
 
 }
 
-#undef SET_T
 
 #endif	//_xyzzy_refcnt_hxx_

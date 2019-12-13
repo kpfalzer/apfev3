@@ -9,27 +9,38 @@
 #ifndef apfev3_node_hxx
 #define apfev3_node_hxx
 
-#include "apfev3/_types.hxx"
+#include "xyzzy/refcnt.hxx"
+#include "apfev3/location.hxx"
 
 namespace apfev3 {
 
+using xyzzy::TRcObj;
+
 class _Node : public virtual TRcObj {
 public:
-    const TPTokens& tokens() const;
     
 protected:
-    explicit _Node(const TPTokens& r);
+    explicit _Node()
+    {}
     
     virtual ~_Node() = 0;
     
 private:
-    TPTokens    __tokens;
 };
 
 class _Terminal : public _Node {
 public:
-    
+    const std::string text;
+    const Location location;
+
 protected:
+    explicit _Terminal()
+    {}
+    
+    explicit _Terminal(const std::string& _text, const Location& _location)
+    : text(_text), location(_location)
+    {}
+    
     virtual ~_Terminal() = 0;
 };
 
@@ -37,8 +48,15 @@ class _NonTerminal : public _Node {
 public:
     
 protected:
+    explicit _NonTerminal()
+    {}
+    
     virtual ~_NonTerminal() = 0;
 };
+
+typedef xyzzy::PTRcObjPtr<_Node>        TPNode;
+typedef xyzzy::PTRcObjPtr<_Terminal>    TPTerminal;
+typedef xyzzy::PTRcObjPtr<_NonTerminal> TPNonTerminal;
 
 }
 

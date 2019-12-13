@@ -11,12 +11,20 @@
 
 #include <vector>
 #include <regex>
-#include "apfev3/_types.hxx"
+#include "xyzzy/refcnt.hxx"
 #include "apfev3/util.hxx"
+#include "apfev3/node.hxx"
 #include "apfev3/consumer.hxx"
 
 
 namespace apfev3 {
+
+class Tokens;
+typedef xyzzy::PTRcPtr<Tokens>      TPTokens;
+typedef SList<TPTokens>             TokensList;
+typedef xyzzy::PTRcPtr<TokensList>  TPTokensList;
+typedef std::vector<TPToken>        TokenVector;
+typedef xyzzy::PTRcPtr<TokenVector> TPTokenVector;
 
 class Tokens {
 public:
@@ -69,6 +77,16 @@ std::ostream& operator<<(std::ostream& os, const Tokens& ele) {
     return ele.operator<<(os);
 }
 
+// A convenience node for wrapping Tokens into a Node.
+class TokenVectorNode : public virtual _NonTerminal, public TokenVector {
+public:
+    explicit TokenVectorNode(const TPTokens& tokens);
+    
+    virtual ~TokenVectorNode();
+};
+
+typedef xyzzy::PTRcObjPtr<TokenVectorNode> TPTokenVectorNode;
+
 class _Acceptor {
 public:
     virtual ~_Acceptor() = 0;
@@ -77,6 +95,10 @@ public:
     
     virtual TPTokens accept(Consumer& consumer) const;
 
+    // Convert tokens collected from this acceptor into _Node.
+    //TODO: this is public for testing.  Should likely be protected.
+    virtual TPNode toNode(const TPTokens& tokens) const;
+    
 protected:
     virtual TPTokens _accept(Consumer& consumer) const = 0;
     
@@ -87,23 +109,6 @@ protected:
     
 private:
     TPTokens __accept(Consumer& consumer) const;
-};
-
-class Terminal : public _Acceptor {
-public:
-    explicit Terminal(const std::string& text)
-    : __text(text)
-    {}
-    
-    //allow default copy constructors
-    
-    virtual ~Terminal(){}
-    
-protected:
-    virtual TPTokens _accept(Consumer& consumer) const;
-    
-private:
-    const std::string&  __text;
 };
 
 class Regex : public _Acceptor {

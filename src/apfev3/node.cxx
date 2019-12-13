@@ -7,4 +7,16 @@
 //
 
 #include "apfev3/node.hxx"
-#include "apfev3/consumer.hxx"
+
+namespace apfev3 {
+
+_Node::~_Node()
+{}
+
+_Terminal::~_Terminal()
+{}
+
+_NonTerminal::~_NonTerminal()
+{}
+
+}
