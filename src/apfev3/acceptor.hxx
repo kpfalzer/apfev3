@@ -42,6 +42,8 @@ public:
     // Valid only for eAlternatives.
     explicit Tokens(EType type);
     
+    explicit Tokens(const TPTokens& from);
+    
     void addAlternative(const TPTokens& alt);
         
     virtual ~Tokens();
@@ -94,7 +96,7 @@ public:
     //allow default copy constructors
     
     virtual TPTokens accept(Consumer& consumer) const;
-
+    
     // Convert tokens collected from this acceptor into _Node.
     //TODO: this is public for testing.  Should likely be protected.
     virtual TPNode toNode(const TPTokens& tokens) const;

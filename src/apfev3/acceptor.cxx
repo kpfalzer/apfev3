@@ -50,11 +50,16 @@ Tokens::Tokens(const Tokens& from)
         case eTerminal:
             __items.terminal.ref(from.asToken());
             break;
+        case eEmpty:
+            break;
         default:
             INVARIANT(false);
     }
 }
 
+Tokens::Tokens(const TPTokens& from)
+: Tokens(*from)
+{}
 
 void
 Tokens::addAlternative(const TPTokens& alt) {
@@ -272,9 +277,25 @@ Alternatives::_accept(Consumer& consumer) const {
     Tokens* alts = nullptr;
     const Consumer start(consumer);
     bool updateBase = true;
+#define KEEP_LONGEST
+#if defined(KEEP_LONGEST)
+    size_t n = 0;
+    TPTokens longest;
+    Mark advance;
+#endif
     for (auto iter = __eles.iterator(); iter.hasMore(); ) {
         Consumer xconsumer(start);
         p = iter.next()->accept(xconsumer);
+#if defined(KEEP_LONGEST)
+        if (!p.isValid()) continue;
+        TPTokenVector tokens = p->reduce();
+        const size_t m = tokens->size();
+        if (m > n) {
+            longest = p;
+            n = m;
+            advance = xconsumer.mark();
+        }
+#else
         if (p.isValid()) {
             if (nullptr == alts) {
                 alts = new Tokens(Tokens::eAlternatives);
@@ -288,7 +309,16 @@ Alternatives::_accept(Consumer& consumer) const {
                 consumer.addAlt(xconsumer);
             }
         }
+#endif
     }
+#if defined(KEEP_LONGEST)
+    if (longest.isValid()) {
+        alts = new Tokens(longest);
+        consumer.rewind(advance);
+    } else {
+        consumer.rewind(start);
+    }
+#endif
     return alts;
 }
 

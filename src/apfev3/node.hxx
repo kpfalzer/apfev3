@@ -9,6 +9,7 @@
 #ifndef apfev3_node_hxx
 #define apfev3_node_hxx
 
+#include <vector>
 #include "xyzzy/refcnt.hxx"
 #include "apfev3/location.hxx"
 
@@ -54,9 +55,17 @@ protected:
     virtual ~_NonTerminal() = 0;
 };
 
+class NodeVector : public _NonTerminal, public std::vector<_Node> {
+public:
+    
+    virtual ~NodeVector();
+};
+
 typedef xyzzy::PTRcObjPtr<_Node>        TPNode;
 typedef xyzzy::PTRcObjPtr<_Terminal>    TPTerminal;
 typedef xyzzy::PTRcObjPtr<_NonTerminal> TPNonTerminal;
+
+typedef xyzzy::PTRcObjPtr<NodeVector>   TPNodeVector;
 
 }
 
