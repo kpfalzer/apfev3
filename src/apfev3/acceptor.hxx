@@ -95,14 +95,14 @@ public:
     
     //allow default copy constructors
     
-    virtual TPTokens accept(Consumer& consumer) const;
+    virtual _Node accept(Consumer& consumer) const;
     
     // Convert tokens collected from this acceptor into _Node.
     //TODO: this is public for testing.  Should likely be protected.
     virtual TPNode toNode(const TPTokens& tokens) const;
     
 protected:
-    virtual TPTokens _accept(Consumer& consumer) const = 0;
+    virtual _Node _accept(Consumer& consumer) const = 0;
     
     // Subclass which checks for EOF should return false.
     virtual bool _checksForEOF() const {
@@ -122,11 +122,11 @@ public:
     virtual ~Regex(){}
 
 protected:
-    virtual TPTokens _accept(Consumer& consumer) const;
+    virtual _Node _accept(Consumer& consumer) const;
     
     virtual TPToken _skipTrailingWs(Consumer& consumer, const std::string& text) const;
      
-    virtual TPToken _create(Consumer& consumer, const std::string& text) const;
+    virtual _Node _create(Consumer& consumer, const std::string& text) const;
     
 protected:
     const std::regex _rex;
@@ -142,7 +142,7 @@ public:
     //allow default copy constructors
     
 protected:
-    virtual TPTokens _accept(Consumer& consumer) const;
+    virtual _Node _accept(Consumer& consumer) const;
     
 private:
     const _Acceptor& __ele;
@@ -162,7 +162,7 @@ public:
     virtual ~Sequence();
 
 protected:
-    virtual TPTokens _accept(Consumer& consumer) const;
+    virtual _Node _accept(Consumer& consumer) const;
 
 private:
     const AcceptorList __eles;
@@ -180,7 +180,7 @@ public:
     virtual ~Alternatives();
     
 protected:
-    virtual TPTokens _accept(Consumer& consumer) const;
+    virtual _Node _accept(Consumer& consumer) const;
     
 private:
     const AcceptorList __eles;
@@ -198,7 +198,7 @@ public:
     
     //allow default copy constructors
     
-    virtual TPToken _create(Consumer& consumer, const std::string& text) const;
+    virtual _Node _create(Consumer& consumer, const std::string& text) const;
 
     virtual ~Ident()
     {}
@@ -220,7 +220,7 @@ public:
     static const LineComment& THE_ONE;
     
 protected:
-    virtual TPTokens _accept(Consumer& consumer) const;
+    virtual _Node _accept(Consumer& consumer) const;
 };
 
 class BlockComment : public _Acceptor {
@@ -237,7 +237,7 @@ public:
     static const BlockComment& THE_ONE;
     
 protected:
-    virtual TPTokens _accept(Consumer& consumer) const;
+    virtual _Node _accept(Consumer& consumer) const;
 };
 
 class WhiteSpace : public Regex {
@@ -269,7 +269,7 @@ public:
     static const Spacing& THE_ONE;
 
 protected:
-    virtual TPTokens _accept(Consumer& consumer) const;
+    virtual _Node _accept(Consumer& consumer) const;
 };
 
 class EndOfFile : public _Acceptor {
@@ -286,7 +286,7 @@ public:
     static const EndOfFile& THE_ONE;
 
 protected:
-    virtual TPTokens _accept(Consumer& consumer) const;
+    virtual _Node _accept(Consumer& consumer) const;
     
     virtual bool _checksForEOF() const {
         return true;
