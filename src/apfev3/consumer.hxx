@@ -23,6 +23,8 @@ class Location;
 class Mark;
 
 typedef xyzzy::PTRcObjPtr<Token>  TPToken;
+ 
+TPNode toNode(const TPToken& token);
 
 class Consumer {
 public:
@@ -68,21 +70,6 @@ public:
     
     virtual std::ostream& operator<<(std::ostream& os) const;
 
-    typedef SList<Consumer> ConsumerList;
-    typedef xyzzy::PTRcPtr<ConsumerList> TPConsumerList;
-    
-    TPConsumerList& alts() {
-        return __alts;
-    }
-    
-    bool hasAlts() const {
-        return __alts.isValid() && !__alts->isEmpty();
-    }
-    
-    TPConsumerList& addAlt(const Consumer& consumer);
-    
-    void replaceAlts(TPConsumerList& from);
-    
     bool operator==(const Consumer& other) const;
     
     bool operator!=(const Consumer& other) const {
@@ -93,7 +80,6 @@ private:
     // Use method rewind() to be more explicit
     const Consumer& operator=(const Consumer& from);
     
-    TPConsumerList __alts;
     const CharBuf&  __buf;
     size_t __pos;
     size_t __line, __col;
@@ -116,8 +102,6 @@ public:
     {}
     
     virtual ~Token();
-    
-    virtual std::ostream& operator<<(std::ostream& os) const;
 };
 
 class Mark {
@@ -134,12 +118,6 @@ public:
     
     const size_t pos, line, col;
 };
-
-typedef Consumer::ConsumerList      ConsumerList;
-typedef Consumer::TPConsumerList    TPConsumerList;
-
-// Append consumer to list if not exist
-void append(TPConsumerList& list, const Consumer& consumer);
 
 inline
 std::ostream& operator<<(std::ostream& os, const Token& ele) {

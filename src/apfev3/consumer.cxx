@@ -13,6 +13,11 @@
 
 namespace apfev3 {
 
+//static
+TPNode toNode(const TPToken& token) {
+    return xyzzy::upcast<_Node>(token);
+}
+
 Consumer::Consumer(const CharBuf& buf)
 : __buf(buf),
 __pos(0),
@@ -26,38 +31,6 @@ __pos(from.__pos),
 __line(from.__line),
 __col(from.__col)
 {}
-
-// Append consumer to list if not exist
-void append(TPConsumerList& list, const Consumer& consumer) {
-    bool noMatch = true;
-    if (list.isNull()) {
-        list = new ConsumerList();
-    } else {
-        for (auto iter = list->iterator(); noMatch && iter.hasMore(); ) {
-            if (iter.next() == consumer) {
-                noMatch = false;
-            }
-        }
-    }
-    if (noMatch) {
-        list->append(consumer);
-    }
-}
-
-TPConsumerList& Consumer::addAlt(const Consumer& consumer) {
-    if (*this != consumer) {
-        append(alts(), consumer);
-    }
-    return alts();
-}
-
-void Consumer::replaceAlts(TPConsumerList& from) {
-    if (from.isNull() || from->isEmpty()) {
-        __alts = nullptr;
-    } else {
-        __alts = from;
-    }
-}
 
 bool Consumer::operator==(const Consumer& other) const {
     return (&__buf == &other.__buf) && (__pos == other.__pos);
@@ -127,14 +100,6 @@ Token::~Token() {
 std::ostream&
 Consumer::operator<<(std::ostream& os) const {
     os << filename() << ":" << __line << ":" << __col << '[' << __pos << ']';
-    return os;
-}
-
-std::ostream&
-Token::operator<<(std::ostream& os) const {
-    std::string s = text;
-    replaceAll(replaceAll(s, "\"", "\\\""), "\n", "\\n");
-    os << location << ":" << '"' << s << '"';
     return os;
 }
 
