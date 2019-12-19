@@ -72,9 +72,15 @@ protected:
     explicit _Terminal()
     {}
     
+    explicit _Terminal(const _Terminal& ref)
+    : text(ref.text), location(ref.location)
+    {}
+    
     explicit _Terminal(const std::string& _text, const Location& _location)
     : text(_text), location(_location)
     {}
+    
+    explicit _Terminal(const TPNode& node);
     
     virtual ~_Terminal() = 0;
 };

@@ -14,8 +14,8 @@
 namespace apfev3 {
 
 std::string& replaceAll(std::string& s, const std::string& from, const std::string& to) {
-    for (size_t pos; (pos = s.find(from)) != std::string::npos; ) {
-        s.replace(pos, 1, to);
+    for (size_t pos = 0; (pos = s.find(from, pos)) != std::string::npos; pos += to.length()) {
+        s.replace(pos, from.length(), to);
     }
     return s;
 }

@@ -16,6 +16,10 @@ namespace apfev3 {
 _Node::~_Node()
 {}
 
+_Terminal::_Terminal(const TPNode& node)
+: _Terminal(dynamic_cast<const _Terminal&>(node.asT()))
+{}
+
 ostream&
 _Terminal::operator<<(ostream &os) const {
     std::string text2 = text;

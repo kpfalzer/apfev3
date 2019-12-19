@@ -192,5 +192,20 @@ EndOfFile::_accept(Consumer& consumer) const {
 
 /*static*/ const EndOfFile& EndOfFile::THE_ONE = EndOfFile();
 
+TPNode
+Quoted::_accept(Consumer& consumer) const {
+    if (consumer[0] != '\'' && consumer[0] != '"')
+        return nullptr;
+    const char opening = consumer[0];
+    size_t n = 1;
+    for (; !(consumer[n] == opening) && !consumer.isEOF(n); ++n) {
+        if (consumer[n] == '\\') ++n;
+    }
+    INVARIANT(!consumer.isEOF(n));
+    return toNode(consumer.accept(n+1));
+}
+
+/*static*/ const Quoted& Quoted::THE_ONE = Quoted();
+
 }
 }

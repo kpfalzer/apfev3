@@ -135,7 +135,6 @@ protected:
 
 class LineComment : public _Acceptor {
 public:
-    // Use default pattern
     explicit LineComment()
     {}
     
@@ -152,7 +151,6 @@ protected:
 
 class BlockComment : public _Acceptor {
 public:
-    // Use default pattern
     explicit BlockComment()
     {}
     
@@ -218,6 +216,23 @@ protected:
     virtual bool _checksForEOF() const {
         return true;
     }
+};
+
+class Quoted : public _Acceptor {
+public:
+    //Accepts single or double quoted
+    explicit Quoted()
+    {}
+    
+    //allow default copy constructors
+    
+    virtual ~Quoted()
+    {}
+    
+    static const Quoted& THE_ONE;
+    
+protected:
+    virtual TPNode _accept(Consumer& consumer) const;
 };
 
 }   //namespace token

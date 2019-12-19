@@ -90,6 +90,13 @@ int main(int argc, const char * argv[]) {
         INVARIANT(consumer.isEOF());
         std::cout << "match=" << *match << std::endl;
     }
+    if (true) {
+        const char* p = "'quoted'";
+        apfev3::CharBuf cbuf(p);
+        apfev3::Consumer consumer(cbuf);
+        apfev3::TPNode match = apfev3::token::Quoted::THE_ONE.accept(consumer);
+        INVARIANT(match.isValid());
+    }
    if (true) {
        const char* p =
        "1234\n"
@@ -98,12 +105,13 @@ int main(int argc, const char * argv[]) {
        "/*block\n"
        "\n"
        "//*/5678 \n"
-       "10123     ";
+       "10123     'single quoted\" here' ";
        apfev3::CharBuf cbuf(p);
        apfev3::Consumer consumer(cbuf);
        static apfev3::Regex INTEGER("\\d+");
        static apfev3::Alternatives TOKEN({
            &INTEGER,
+           &apfev3::token::Quoted::THE_ONE,
            &apfev3::token::Spacing::THE_ONE
        });
        static apfev3::Repetition TOKENS(TOKEN, apfev3::Repetition::eOneOrMore);
