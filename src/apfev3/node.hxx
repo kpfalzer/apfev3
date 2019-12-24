@@ -105,6 +105,12 @@ protected:
 class NodeVector : public _NonTerminal, public std::vector<TPNode> {
 public:
     
+    // Initialize from pattern: a (X a)*
+    // to create vector of a
+    void initFromOneOrMore(const TPNode& listOf);
+    
+    void for_each(std::function<void(const TPNode& node)> unary) const;
+    
     virtual size_t depth() const;
     
     virtual ~NodeVector();
@@ -114,6 +120,10 @@ public:
 };
 
 typedef PTRcObjPtr<NodeVector>   TPNodeVector;
+
+inline TPNodeVector toNodeVector(const TPNode& node) {
+    return xyzzy::downcast<_Node, NodeVector>(node);
+}
 
 }
 

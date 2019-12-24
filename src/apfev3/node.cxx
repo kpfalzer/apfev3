@@ -6,6 +6,7 @@
 //  Copyright © 2019 Karl W Pfalzer. All rights reserved.
 //
 
+#include <algorithm>
 #include <numeric>
 #include "xyzzy/refcnt.hxx"
 #include "apfev3/util.hxx"
@@ -33,6 +34,23 @@ _Terminal::~_Terminal()
 
 _NonTerminal::~_NonTerminal()
 {}
+
+void
+NodeVector::initFromOneOrMore(const TPNode& listOf) {
+    TPNodeVector nodes = toNodeVector(listOf);
+    this->push_back(nodes->at(0));
+    nodes = toNodeVector(nodes->at(1));
+    nodes->for_each([this](const TPNode& node){
+        TPNodeVector seq = toNodeVector(node);
+        this->push_back(seq->at(1));
+    });
+    this->shrink_to_fit();
+}
+
+void
+NodeVector::for_each(std::function<void(const TPNode& node)> unary) const {
+    std::for_each(cbegin(), cend(), unary);
+}
 
 NodeVector::~NodeVector()
 {}

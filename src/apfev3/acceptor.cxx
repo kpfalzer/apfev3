@@ -138,6 +138,20 @@ TPToken Ident::_create(Consumer& consumer, const std::string& text) const {
 /*static*/ const Ident& Ident::THE_ONE = Ident();
  
 TPNode
+CharSequence::_accept(Consumer& consumer) const {
+    const size_t n = text.length();
+    if (n > consumer.rem()) return nullptr;
+    const Mark start = consumer.mark();
+    TPToken match = consumer.accept(n);
+    if (match->text == text) {
+        return upcast<_Node>(match);
+    } else {
+        consumer.rewind(start);
+        return nullptr;
+    }
+}
+
+TPNode
 LineComment::_accept(Consumer& consumer) const {
     if (consumer[0] != '/' || consumer[1] != '/')
         return nullptr;

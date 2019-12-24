@@ -133,6 +133,24 @@ protected:
     virtual TPToken _create(Consumer& consumer, const std::string& text) const;
 };
 
+// Match sequence of characters
+class CharSequence : public _Acceptor {
+public:
+    explicit CharSequence(const std::string& text)
+    : text(text)
+    {}
+    
+    //allow default copy constructors
+    
+    virtual ~CharSequence()
+    {}
+    
+    const std::string text;
+    
+protected:
+    virtual TPNode _accept(Consumer& consumer) const;
+};
+
 class LineComment : public _Acceptor {
 public:
     explicit LineComment()
