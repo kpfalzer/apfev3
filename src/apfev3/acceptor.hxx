@@ -106,6 +106,7 @@ public:
     virtual ~Alternatives();
     
 protected:
+    // Returns TPAlternativeNode
     virtual TPNode _accept(Consumer& consumer) const;
     
 private:

@@ -102,8 +102,17 @@ protected:
     size_t _tokenDepth;    
 };
 
+class NodeVector;
+typedef PTRcObjPtr<NodeVector>   TPNodeVector;
+
 class NodeVector : public _NonTerminal, public std::vector<TPNode> {
 public:
+    explicit NodeVector(const TPNodeVector& vec);
+    
+    explicit NodeVector(const TPNode& node);
+
+    explicit NodeVector()
+    {}
     
     // Initialize from pattern: a (X a)*
     // to create vector of a
@@ -119,10 +128,58 @@ public:
     
 };
 
-typedef PTRcObjPtr<NodeVector>   TPNodeVector;
+class AlternativeNode : public _Node {
+public:
+    explicit AlternativeNode(const TPNode& _node, size_t _selected)
+    : __actual(_node), selected(_selected)
+    {}
+    
+    //selected alternative (0-origin)
+    const size_t selected;
+    
+    virtual ~AlternativeNode()
+    {}
+    
+    const TPNode& actual() const {
+        return __actual;
+    }
+    
+    virtual size_t depth() const {
+        return actual()->depth();
+    }
+    
+    virtual bool isLeaf() const {
+        return actual()->isLeaf();
+    }
+    
+    virtual ostream& operator<<(ostream& os) const {
+        return actual()->operator<<(os);
+    }
+    
+    const TPNode& operator()() const {
+        return actual();
+    }
+    
+private:
+    const TPNode    __actual;
+};
+
+typedef PTRcObjPtr<AlternativeNode>   TPAlternativeNode;
+
+inline TPTerminal toTerminal(const TPNode& node) {
+    return xyzzy::downcast<_Node, _Terminal>(node);
+}
+
+inline TPNonTerminal toNonTerminal(const TPNode& node) {
+    return xyzzy::downcast<_Node, _NonTerminal>(node);
+}
 
 inline TPNodeVector toNodeVector(const TPNode& node) {
     return xyzzy::downcast<_Node, NodeVector>(node);
+}
+
+inline TPAlternativeNode toAlternativeNode(const TPNode& node) {
+    return xyzzy::downcast<_Node, AlternativeNode>(node);
 }
 
 }

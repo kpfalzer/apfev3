@@ -58,8 +58,9 @@ NodeVector::~NodeVector()
 ostream&
 NodeVector::operator<<(ostream &os) const {
     size_t i = 0;
+    // We don't use comma since we now use << to regurgitate input stream
     for (auto iter = cbegin(); iter != cend(); ++iter, ++i) {
-        if (0 < i) os << ", ";
+        if (0 < i) os << ' '; //", ";
         (*iter)->operator<<(os);
     }
     return os;
@@ -77,5 +78,13 @@ NodeVector::depth() const {
     }
     return _tokenDepth;
 }
+
+NodeVector::NodeVector(const TPNodeVector& vec)
+: vector<TPNode>(vec.asT())
+{}
+
+NodeVector::NodeVector(const TPNode& node)
+: NodeVector(toNodeVector(node))
+{}
 
 }

@@ -22,7 +22,7 @@ _Acceptor::accept(Consumer& consumer) const {
 
 TPNode
 _Acceptor::__accept(Consumer& consumer) const {
-    return (!_checksForEOF() && consumer.isEOF()) ? nullptr : _accept(consumer);
+    return _accept(consumer);
 }
 
 _Acceptor::~_Acceptor() {}
@@ -101,10 +101,10 @@ Sequence::~Sequence()
 TPNode
 Alternatives::_accept(Consumer& consumer) const {
     const Consumer start(consumer);
-    size_t n = 0;
+    size_t n = 0, selected = 0, i = 0;
     TPNode longest;
     Mark advance;
-    for (auto iter = __eles.iterator(); iter.hasMore(); ) {
+    for (auto iter = __eles.iterator(); iter.hasMore(); ++i) {
         Consumer xconsumer(start);
         auto p = iter.next()->accept(xconsumer);
         if (!p.isValid()) continue;
@@ -113,10 +113,13 @@ Alternatives::_accept(Consumer& consumer) const {
             longest = p;
             n = m;
             advance = xconsumer.mark();
+            selected = i;
         }
     }
     if (longest.isValid()) {
         consumer.rewind(advance);
+        TPAlternativeNode actual = new AlternativeNode(longest, selected);
+        longest = upcast<_Node>(actual);
     } else {
         consumer.rewind(start);
     }
