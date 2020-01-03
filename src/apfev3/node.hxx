@@ -155,11 +155,7 @@ public:
     virtual ostream& operator<<(ostream& os) const {
         return actual()->operator<<(os);
     }
-    
-    const TPNode& operator()() const {
-        return actual();
-    }
-    
+        
 private:
     const TPNode    __actual;
 };
