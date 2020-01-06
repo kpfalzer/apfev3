@@ -114,6 +114,10 @@ public:
     : Mark(0,0,0)
     {}
 
+    size_t operator-(const Mark& to) {
+        return pos - to.pos;
+    }
+    
     const Mark& operator=(const Mark& from);
     
     const size_t pos, line, col;

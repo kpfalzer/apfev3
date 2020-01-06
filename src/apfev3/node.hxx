@@ -59,7 +59,7 @@ public:
     const Location location;
 
     virtual size_t depth() const {
-        return 1;
+        return text.length();
     }
     
     virtual bool isLeaf() const {
