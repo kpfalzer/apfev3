@@ -19,6 +19,8 @@ public:
     explicit Location(const std::string& filename, size_t line, size_t col)
     : filename(filename), line(line), col(col) {}
     
+    const Location& operator=(const Location& from);
+    
     static const std::string UNKNOWN;
     
     explicit Location()
@@ -28,6 +30,10 @@ public:
 
     const std::string& filename;
     const size_t    line, col;
+    
+    bool isValid() const {
+        return UNKNOWN != filename;
+    }
     
     virtual std::ostream& operator<<(std::ostream& os) const;
     

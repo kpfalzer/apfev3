@@ -43,7 +43,7 @@ class Regex : public _Acceptor {
 public:
     explicit Regex(const std::string& pattern);
     
-     //allow default copy constructors
+    //allow default copy constructors
     
     virtual ~Regex(){}
 

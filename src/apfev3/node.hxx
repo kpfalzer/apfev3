@@ -82,6 +82,8 @@ protected:
     
     explicit _Terminal(const TPNode& node);
     
+    void _set(const std::string& _text, const Location& _location);
+    
     virtual ~_Terminal() = 0;
 };
 

@@ -32,6 +32,13 @@ _Terminal::operator<<(ostream &os) const {
 _Terminal::~_Terminal()
 {}
 
+void
+_Terminal::_set(const std::string& _text, const Location& _location) {
+    INVARIANT(!location.isValid());
+    const_cast<std::string&>(text) = _text;
+    const_cast<Location&>(location) = _location;
+}
+
 _NonTerminal::~_NonTerminal()
 {}
 

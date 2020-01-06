@@ -13,6 +13,16 @@ namespace apfev3 {
 
 /*static*/ const std::string Location::UNKNOWN = "<unintialized>";
 
+const Location&
+Location::operator=(const Location& from) {
+    INVARIANT(filename == UNKNOWN);
+    const_cast<std::string&>(filename) = from.filename;
+    const_cast<size_t&>(line) = from.line;
+    const_cast<size_t&>(col) = from.col;
+    return *this;
+}
+
+
 bool
 Location::operator==(const Location& other) const {
     INVARIANT(filename == other.filename);
