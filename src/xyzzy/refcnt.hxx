@@ -359,6 +359,7 @@ namespace xyzzy {
     PTRcObjPtr<T>::decr() {
         if (true == m_p->decr()) {
             delete m_p;
+            m_p = nullptr;
         }
     }
 
