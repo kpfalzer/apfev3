@@ -38,6 +38,12 @@ _Terminal::_set(const std::string& _text, const Location& _location) {
     const_cast<std::string&>(text) = _text;
     const_cast<Location&>(location) = _location;
 }
+ 
+std::size_t
+_Node::typeCode() const {
+    throw xyzzy::TException("_Node subclass must implement");
+    return 0;
+}
 
 _NonTerminal::~_NonTerminal()
 {}

@@ -11,6 +11,7 @@
 
 #include <vector>
 #include <ostream>
+#include <typeinfo>
 #include "xyzzy/refcnt.hxx"
 #include "apfev3/location.hxx"
 
@@ -39,6 +40,12 @@ public:
     
     virtual ostream& operator<<(ostream& os) const = 0;
     
+    // Unique code identifying type.
+    virtual std::size_t typeCode() const;
+    
+    //enum based token codes expected to be less than this value.
+    enum : std::size_t {TOKEN_MAX_TYPE_CODE = 1024};
+    
 protected:
     explicit _Node()
     {}
@@ -51,6 +58,13 @@ private:
 inline
 ostream& operator<<(ostream& os, const _Node& node) {
     return node.operator<<(os);
+}
+
+template<typename T>
+inline
+std::size_t
+getTypeCode() {
+    return typeid(T).hash_code() + _Node::TOKEN_MAX_TYPE_CODE;
 }
 
 class _Terminal : public _Node {
