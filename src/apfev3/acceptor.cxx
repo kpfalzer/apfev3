@@ -219,7 +219,9 @@ Quoted::_accept(Consumer& consumer) const {
         if (consumer[n] == '\\') ++n;
     }
     INVARIANT(!consumer.isEOF(n));
-    return toNode(consumer.accept(n+1));
+    TPNode node = toNode(consumer.accept(n+1));
+    Spacing::THE_ONE.accept(consumer);
+    return node;
 }
 
 /*static*/ const Quoted& Quoted::THE_ONE = Quoted();
