@@ -150,6 +150,8 @@ public:
     : __actual(_node), selected(_selected)
     {}
     
+    explicit AlternativeNode(const AlternativeNode&) = default;
+    
     //selected alternative (0-origin)
     const size_t selected;
     
