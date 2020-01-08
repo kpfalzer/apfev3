@@ -40,7 +40,7 @@
 		F4AE873B2385FD1400E03523 /* consumer.hxx */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = consumer.hxx; sourceTree = "<group>"; };
 		F4AE873D2386180800E03523 /* acceptor.cxx */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = acceptor.cxx; sourceTree = "<group>"; };
 		F4AE873E2386180800E03523 /* acceptor.hxx */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = acceptor.hxx; sourceTree = "<group>"; };
-		F4CB19B72385E32800EF9C85 /* apfev3 */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "compiled.mach-o.executable"; path = apfev3; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4CB19B72385E32800EF9C85 /* apfev3 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = apfev3; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4CB19BA2385E32800EF9C85 /* main.cxx */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cxx; sourceTree = "<group>"; };
 		F4CB19CE2385EA6800EF9C85 /* util.cxx */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = util.cxx; sourceTree = "<group>"; };
 		F4CB19CF2385EA6800EF9C85 /* util.hxx */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = util.hxx; sourceTree = "<group>"; };
@@ -141,7 +141,7 @@
 		F4CB19AF2385E32800EF9C85 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1120;
+				LastUpgradeCheck = 1130;
 				ORGANIZATIONNAME = "Karl W Pfalzer";
 				TargetAttributes = {
 					F4CB19B62385E32800EF9C85 = {
@@ -300,6 +300,7 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				"HEADER_SEARCH_PATHS[arch=*]" = src;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -311,6 +312,7 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				"HEADER_SEARCH_PATHS[arch=*]" = src;
 				PRODUCT_NAME = "$(TARGET_NAME)";
