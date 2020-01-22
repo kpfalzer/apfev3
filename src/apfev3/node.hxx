@@ -9,6 +9,7 @@
 #ifndef apfev3_node_hxx
 #define apfev3_node_hxx
 
+#include <functional>
 #include <vector>
 #include <ostream>
 #include <typeinfo>

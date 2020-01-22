@@ -21,5 +21,5 @@ debug.a:
 	-rm -rf debug/${OS}
 	mkdir -p debug/${OS}
 	(cd debug/${OS}; g++ -c -g ${INCL:%=-I ${RDIR}/%} ${CCOPTS} ${SRCS:%=${RDIR}/%} )
-	(cd debug/${OS}; ar cr ${LIB}.a `lorder *.o | tsort` )
+	(cd debug/${OS}; ar cr ${LIB}.a *.o )
 
