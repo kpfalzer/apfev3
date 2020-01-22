@@ -100,4 +100,9 @@ NodeVector::NodeVector(const TPNode& node)
 : NodeVector(toNodeVector(node))
 {}
 
+AlternativeNode::AlternativeNode(const TPNode& altNode)
+: AlternativeNode(toAlternativeNode(altNode).asT())
+{}
+
+
 }

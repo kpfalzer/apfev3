@@ -67,6 +67,14 @@ getTypeCode() {
     return typeid(T).hash_code() + _Node::TOKEN_MAX_TYPE_CODE;
 }
 
+template<typename T>
+inline
+bool
+isNodeType(const TPNode& node) {
+    return getTypeCode<T>() == node->typeCode();
+}
+
+
 class _Terminal : public _Node {
 public:
     const std::string text;
@@ -150,6 +158,8 @@ public:
     : __actual(_node), selected(_selected)
     {}
     
+    explicit AlternativeNode(const TPNode& altNode);
+    
     explicit AlternativeNode(const AlternativeNode&) = default;
     
     //selected alternative (0-origin)
@@ -173,7 +183,11 @@ public:
     virtual ostream& operator<<(ostream& os) const {
         return actual()->operator<<(os);
     }
-        
+       
+    virtual std::size_t typeCode() const {
+        return getTypeCode<AlternativeNode>();
+    }
+
 private:
     const TPNode    __actual;
 };
