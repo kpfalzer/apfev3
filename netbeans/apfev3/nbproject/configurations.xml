@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="100">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <logicalFolder name="HeaderFiles"
+                   displayName="Header Files"
+                   projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="ResourceFiles"
+                   displayName="Resource Files"
+                   projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="SourceFiles"
+                   displayName="Source Files"
+                   projectFiles="true">
+      <logicalFolder name="src" displayName="src" projectFiles="true">
+        <logicalFolder name="apfev3" displayName="apfev3" projectFiles="true">
+          <itemPath>../../src/apfev3/acceptor.cxx</itemPath>
+          <itemPath>../../src/apfev3/acceptor.hxx</itemPath>
+          <itemPath>../../src/apfev3/charbuf.cxx</itemPath>
+          <itemPath>../../src/apfev3/charbuf.hxx</itemPath>
+          <itemPath>../../src/apfev3/consumer.cxx</itemPath>
+          <itemPath>../../src/apfev3/consumer.hxx</itemPath>
+          <itemPath>../../src/apfev3/location.cxx</itemPath>
+          <itemPath>../../src/apfev3/location.hxx</itemPath>
+          <itemPath>../../src/apfev3/node.cxx</itemPath>
+          <itemPath>../../src/apfev3/node.hxx</itemPath>
+          <itemPath>../../src/apfev3/util.cxx</itemPath>
+          <itemPath>../../src/apfev3/util.hxx</itemPath>
+        </logicalFolder>
+        <logicalFolder name="xyzzy" displayName="xyzzy" projectFiles="true">
+          <itemPath>../../src/xyzzy/exception.cxx</itemPath>
+          <itemPath>../../src/xyzzy/exception.hxx</itemPath>
+          <itemPath>../../src/xyzzy/refcnt.hxx</itemPath>
+        </logicalFolder>
+      </logicalFolder>
+    </logicalFolder>
+    <logicalFolder name="TestFiles"
+                   displayName="Test Files"
+                   projectFiles="false"
+                   kind="TEST_LOGICAL_FOLDER">
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <sourceRootList>
+    <Elem>../../src</Elem>
+  </sourceRootList>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Debug" type="3">
+      <toolsSet>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <ccTool>
+          <developmentMode>0</developmentMode>
+          <incDir>
+            <pElem>../../src</pElem>
+          </incDir>
+          <commandLine>-std=c++11</commandLine>
+        </ccTool>
+        <archiverTool>
+        </archiverTool>
+      </compileType>
+      <item path="../../src/apfev3/acceptor.cxx" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../../src/apfev3/acceptor.hxx" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../src/apfev3/charbuf.cxx" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../../src/apfev3/charbuf.hxx" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../src/apfev3/consumer.cxx" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../../src/apfev3/consumer.hxx" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../src/apfev3/location.cxx" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../../src/apfev3/location.hxx" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../src/apfev3/node.cxx" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../../src/apfev3/node.hxx" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../src/apfev3/util.cxx" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../../src/apfev3/util.hxx" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../src/xyzzy/exception.cxx" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../../src/xyzzy/exception.hxx" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../src/xyzzy/refcnt.hxx" ex="false" tool="3" flavor2="0">
+      </item>
+    </conf>
+    <conf name="Release" type="3">
+      <toolsSet>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <cTool>
+          <developmentMode>5</developmentMode>
+        </cTool>
+        <ccTool>
+          <developmentMode>0</developmentMode>
+          <incDir>
+            <pElem>../../src</pElem>
+          </incDir>
+          <commandLine>-std=c++11</commandLine>
+        </ccTool>
+        <fortranCompilerTool>
+          <developmentMode>5</developmentMode>
+        </fortranCompilerTool>
+        <asmTool>
+          <developmentMode>5</developmentMode>
+        </asmTool>
+        <archiverTool>
+        </archiverTool>
+      </compileType>
+      <item path="../../src/apfev3/acceptor.cxx" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../../src/apfev3/acceptor.hxx" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../src/apfev3/charbuf.cxx" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../../src/apfev3/charbuf.hxx" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../src/apfev3/consumer.cxx" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../../src/apfev3/consumer.hxx" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../src/apfev3/location.cxx" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../../src/apfev3/location.hxx" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../src/apfev3/node.cxx" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../../src/apfev3/node.hxx" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../src/apfev3/util.cxx" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../../src/apfev3/util.hxx" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../src/xyzzy/exception.cxx" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../../src/xyzzy/exception.hxx" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../src/xyzzy/refcnt.hxx" ex="false" tool="3" flavor2="0">
+      </item>
+    </conf>
+  </confs>
+</configurationDescriptor>
