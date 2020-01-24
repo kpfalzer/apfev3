@@ -1,0 +1,15 @@
+#!/bin/csh -f
+
+foreach cls (${*})
+	foreach sfx (.hxx .cxx)
+		set dest=${cls}${sfx}
+		if (-e $dest) then
+			echo "${dest}: file exists.  Will not overwrite."
+		else
+			echo "${dest}: generating ..."
+			sed "s/@CLASS@/${cls}/g" .template${sfx} >! ${dest}
+			if ($status) exit 1
+			git add ${dest}
+		endif
+	end
+end

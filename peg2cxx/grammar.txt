@@ -1,0 +1,28 @@
+peg: pegItem* EOF
+
+pegItem
+:	terminal
+|	nonTerminal
+
+// IDENT is all uppercase
+terminal: IDENT ':' primary ';'
+
+primary: (primaryEle repeatOp?)+
+
+primaryEle
+:	STRING
+|	charClass
+
+charClass: '[' . '-' . ']'
+
+repeatOp: '?' | '*' | '+'
+
+# IDENT is all lowercase
+nonTerminal: IDENT ':' nonTerminalEle ';'
+
+nonTerminalEle
+:	nonTerminalEleX ('|' nonTerminalEleX)*
+
+nonTerminalEleX
+:	(IDENT repeatOp?)+
+|	'(' nonTerminalEle ')' repeatOp?
