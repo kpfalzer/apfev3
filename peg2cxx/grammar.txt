@@ -4,7 +4,7 @@ pegItem
 :	terminal
 |	nonTerminal
 
-// IDENT is all uppercase
+// IDENT starts upppercase
 terminal: IDENT ':' primary ';'
 
 primary: (primaryEle repeatOp?)+
@@ -17,7 +17,7 @@ charClass: '[' . '-' . ']'
 
 repeatOp: '?' | '*' | '+'
 
-# IDENT is all lowercase
+# IDENT starts lowercase
 nonTerminal: IDENT ':' nonTerminalEle ';'
 
 nonTerminalEle
